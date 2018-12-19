@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/systelab/cpp-rapidjson-json-adapter.svg?branch=master)](https://travis-ci.org/systelab/cpp-rapidjson-json-adapter)
-[![Build status](https://ci.appveyor.com/api/projects/status/3skyerb10ds9xqyg?svg=true)](https://ci.appveyor.com/project/systelab/cpp-rapidjson-json-adapter)
+[![Build status](https://ci.appveyor.com/api/projects/status/3ynlr6vq3b89bvrn?svg=true)](https://ci.appveyor.com/project/joaquimvila/cpp-rapidjson-json-adapter)
 [![codecov](https://codecov.io/gh/systelab/cpp-rapidjson-json-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/systelab/cpp-rapidjson-json-adapter)
 
 
