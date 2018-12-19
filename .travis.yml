@@ -1,0 +1,16 @@
+dist: trusty
+language: cpp
+compiler: gcc
+
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
+install: 
+  - sudo apt-get install -qq g++-6
+
+script:    
+  - mkdir -p build
+  - cd build
+  - cmake .. 
+  - make
