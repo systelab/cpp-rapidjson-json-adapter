@@ -15,7 +15,4 @@ before_build:
     - cmake -G "Visual Studio 15 2017 Win64" .
 
 build:
-  project: $(APPVEYOR_BUILD_FOLDER)\CppSqlLiteDbAdapter.sln
-
-test_script:
-  - '%APPVEYOR_BUILD_FOLDER%\bin\%CONFIGURATION%\DbSQLiteAdapterTest.exe'
+  project: $(APPVEYOR_BUILD_FOLDER)\CppRapidjsonAdapter.sln
