@@ -1,0 +1,3 @@
+[submodule "interface/cpp-json-adapter"]
+	path = interface/cpp-json-adapter
+	url = https://github.com/systelab/cpp-json-adapter.git
