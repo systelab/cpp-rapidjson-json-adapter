@@ -53,5 +53,5 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Add subprojects
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
-#add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities)
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)
