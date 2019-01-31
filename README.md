@@ -28,6 +28,3 @@ Windows:
 POSIX:  
 
 	-	CMake will create a Makefile from where you can build your binaries by simply calling "$make" command.  
-
-NOTES: Take into account that the first time the build is made can take some time because it has to compile some dependencies such as boost, googletest, etc. To do so, maybe you need to add execution rights to "include/boost_1_67_0/bootstrap.sh" and "include/boost_1_67_0/tools/build/src/engine/build.sh" files.
-
