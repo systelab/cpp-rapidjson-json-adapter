@@ -48,10 +48,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/test)
+include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
 include_directories(${CMAKE_SOURCE_DIR}/interface)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Add subprojects
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
-add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities)
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)

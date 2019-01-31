@@ -1,19 +1,17 @@
 # Add GoogleTest to includes
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories("${gtest_SOURCE_DIR}/include")
 include_directories("${gmock_SOURCE_DIR}/include")
 
-# Configure preprocessor definitions
-add_compile_options(-D RAPIDJSON_HAS_STDSTRING=1)
-
 # Configure test utilities project
-set(TEST_UTILITIES_PROJECT TestUtilities)
-file(GLOB_RECURSE TEST_UTILITIES_PROJECT_SRC "*.cpp")
-file(GLOB_RECURSE TEST_UTILITIES_PROJECT_HDR "*.h")
-add_library(${TEST_UTILITIES_PROJECT} STATIC ${TEST_UTILITIES_PROJECT_SRC} ${TEST_UTILITIES_PROJECT_HDR})
-target_link_libraries(${TEST_UTILITIES_PROJECT} gmock_main GTestAllureUtilities)
+set(JSON_ADAPTER_TEST_UTILITIES_PROJECT JSONAdapterTestUtilities)
+file(GLOB_RECURSE JSON_ADAPTER_TEST_UTILITIES_PROJECT_SRC "*.cpp")
+file(GLOB_RECURSE JSON_ADAPTER_TEST_UTILITIES_PROJECT_HDR "*.h")
+add_library(${JSON_ADAPTER_TEST_UTILITIES_PROJECT} STATIC ${JSON_ADAPTER_TEST_UTILITIES_PROJECT_SRC} ${JSON_ADAPTER_TEST_UTILITIES_PROJECT_HDR})
+target_link_libraries(${JSON_ADAPTER_TEST_UTILITIES_PROJECT} gmock_main)
 
 # Configure source groups
-foreach(FILE ${TEST_UTILITIES_PROJECT_SRC} ${TEST_UTILITIES_PROJECT_HDR})
+foreach(FILE ${JSON_ADAPTER_TEST_UTILITIES_PROJECT_SRC} ${JSON_ADAPTER_TEST_UTILITIES_PROJECT_HDR})
     get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
     string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
     string(REPLACE "/" "\\" GROUP "${GROUP}")
