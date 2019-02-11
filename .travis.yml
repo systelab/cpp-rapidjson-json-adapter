@@ -14,5 +14,11 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - cmake .. 
+  - cmake .. -DCMAKE_BUILD_TYPE=Standalone
   - make
+  - cd test
+  - cd RapidJSONAdapterTest
+  - ctest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
