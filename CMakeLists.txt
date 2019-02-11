@@ -34,30 +34,105 @@ macro(configure_google_test)
 	include(GoogleTest)
 endmacro()
 
+macro(configure_test_utilities_interface)
+	# Check if git is available
+	find_package(Git)
+	if(NOT GIT_FOUND)
+		message(FATAL_ERROR "git not found!")
+	endif()
+
+	# Clone the test utilities interface repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/test/TestUtilities/TestUtilitiesInterface)
+		message(STATUS "test/TestUtilities/TestUtilitiesInterface directory found, pulling...")
+		execute_process(
+                COMMAND             ${GIT_EXECUTABLE} pull origin master
+                COMMAND             ${GIT_EXECUTABLE} submodule update --remote
+                WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+                OUTPUT_VARIABLE     git_output)
+	else()
+		message(STATUS "test/TestUtilities/TestUtilitiesInterface directory not found, cloning...")
+		execute_process(
+				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-json-adapter-test-utilities.git test/TestUtilities/TestUtilitiesInterface
+				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+				OUTPUT_VARIABLE     git_output)
+	endif()
+	
+	# Checkout the right branch
+	set(TEST_UTILITIES_INTERFACE_BRANCH master)
+	message(STATUS "Checking out ${TEST_UTILITIES_INTERFACE_BRANCH} branch...")
+	execute_process(
+			COMMAND             ${GIT_EXECUTABLE} checkout ${TEST_UTILITIES_INTERFACE_BRANCH}
+			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE     git_output)	
+endmacro()
+
+macro(configure_json_adapter_test_utilities)
+	# Check if git is available
+	find_package(Git)
+	if(NOT GIT_FOUND)
+		message(FATAL_ERROR "git not found!")
+	endif()
+
+	# Clone the JSON adapter test utilities repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
+		message(STATUS "test/TestUtilities/JSONAdapterTestUtilities directory found, pulling...")
+		execute_process(
+                COMMAND             ${GIT_EXECUTABLE} pull origin master
+                COMMAND             ${GIT_EXECUTABLE} submodule update --remote
+                WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+                OUTPUT_VARIABLE     git_output)
+	else()
+		message(STATUS "test/TestUtilities/JSONAdapterTestUtilities directory not found, cloning...")
+		execute_process(
+				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-json-adapter-test-utilities.git test/TestUtilities/JSONAdapterTestUtilities
+				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+				OUTPUT_VARIABLE     git_output)
+	endif()
+	
+	# Checkout the right branch
+	set(TEST_UTILITIES_INTERFACE_BRANCH master)
+	message(STATUS "Checking out ${TEST_UTILITIES_INTERFACE_BRANCH} branch...")
+	execute_process(
+			COMMAND             ${GIT_EXECUTABLE} checkout ${TEST_UTILITIES_INTERFACE_BRANCH}
+			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE     git_output)	
+endmacro()
+
+macro(configure_standalone)
+	# Configure project
+	project(RapidJSONAdapter)
+
+	# Setup google_test (before set bin dir)
+	configure_google_test()
+	
+	# Setup external test utilities repositories
+	configure_test_utilities_interface()
+	configure_json_adapter_test_utilities()
+
+	# Configure environment
+	set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+	set(CMAKE_CXX_STANDARD 14)
+	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+	
+	# Configure include directories
+	include_directories(${CMAKE_SOURCE_DIR}/include)
+	include_directories(${CMAKE_SOURCE_DIR}/interface)
+	include_directories(${CMAKE_SOURCE_DIR}/src)
+	include_directories(${CMAKE_SOURCE_DIR}/test)
+	include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
+	
+	# Add test subprojects
+	add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
+	add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)	
+endmacro()
+
 # Configure project
 project(RapidjsonJSONAdapter)
 
-# Setup google_test (before set bin dir)
-configure_google_test()
+# Configure project to be standalone
+if (CMAKE_BUILD_TYPE STREQUAL "Standalone")
+	configure_standalone()
+endif()
 
-# Configure environment
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Configure include directories
-include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${CMAKE_SOURCE_DIR}/test)
-include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
-include_directories(${CMAKE_SOURCE_DIR}/interface)
-include_directories(${CMAKE_SOURCE_DIR}/include)
-
-# Add subprojects
+# Add library subproject
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
-add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
-add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)
