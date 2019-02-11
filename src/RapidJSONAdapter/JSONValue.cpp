@@ -117,7 +117,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		return m_value.GetInt();
 	}
 
-	double JSONValue::getDouble(double) const
+	double JSONValue::getDouble() const
 	{
 		return m_value.GetDouble();
 	}

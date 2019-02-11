@@ -34,7 +34,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		// Only for number values
 		bool isInteger() const;
 		int getInteger() const;
-		double getDouble(double) const;
+		double getDouble() const;
 
 		void setInteger(int);
 		void setLong(long);
