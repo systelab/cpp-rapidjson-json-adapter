@@ -26,5 +26,7 @@ endforeach()
 add_test(NAME RapidJSONAdapterTest COMMAND ${RAPIDJSON_ADAPTER_TEST_PROJECT})
 
 # Additional target for code coverage analysis
-include(CodeCoverage)
-setup_target_for_coverage(RapidJSONAdapterTestCoverage RapidJSONAdapterTest coverage)
+if ("$ENV{COVERAGE}" STREQUAL "On")
+	include(CodeCoverage)
+	setup_target_for_coverage(RapidJSONAdapterTestCoverage RapidJSONAdapterTest coverage)
+endif()
