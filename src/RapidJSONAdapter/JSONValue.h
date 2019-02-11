@@ -20,7 +20,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		JSONValue(JSONDocument&, ::rapidjson::Value&, ::rapidjson::Document::AllocatorType&);
 		virtual ~JSONValue();
 
-		Type getType();
+		Type getType() const;
 		void setType(Type);
 
 		// Only for boolean values

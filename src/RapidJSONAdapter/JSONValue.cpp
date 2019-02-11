@@ -24,7 +24,7 @@ namespace systelab { namespace json { namespace rapidjson {
 	{
 	}
 
-	Type JSONValue::getType()
+	Type JSONValue::getType() const
 	{
 		::rapidjson::Type type = m_value.GetType();
 		switch (type)
