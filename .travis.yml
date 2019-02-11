@@ -2,6 +2,10 @@ dist: trusty
 language: cpp
 compiler: gcc
 
+env:
+  global:
+    - COVERAGE=On
+
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
@@ -14,7 +18,7 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=Standalone -E env COVERAGE=On
+  - cmake .. -DCMAKE_BUILD_TYPE=Standalone
   - make
   - cd test
   - cd RapidJSONAdapterTest
