@@ -14,7 +14,7 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=Standalone
+  - cmake .. -DCMAKE_BUILD_TYPE=Standalone -E env COVERAGE=On
   - make
   - cd test
   - cd RapidJSONAdapterTest
