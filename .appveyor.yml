@@ -6,16 +6,19 @@ platform:
   - x64
  
 configuration:
+  - Debug
   - Release
 
 install:
-    - git submodule update --init --recursive
+  - git submodule update --init --recursive
 
 before_build:
-    - cmake -G "Visual Studio 15 2017 Win64" .
+  - md build
+  - cd build
+  - cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Standalone
 
 build:
-  project: $(APPVEYOR_BUILD_FOLDER)\build\RapidjsonJSONAdapter.sln
+  project: $(APPVEYOR_BUILD_FOLDER)/build/RapidjsonJSONAdapter.sln
 
 artifacts:
   - path: 'build/$(configuration)/RapidjsonJSONAdapter.lib'
