@@ -18,8 +18,8 @@ before_build:
   - cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=RapidjsonJSONAdapterStandalone
 
 build:
-  project: $(APPVEYOR_BUILD_FOLDER)\build\RapidjsonJSONAdapter.sln
+  project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 artifacts:
-  - path: 'build\$(configuration)\RapidjsonJSONAdapter.lib'
-    name: RapidjsonJSONAdapter.lib
+  - path: 'build\$(configuration)\RapidJSONAdapter.lib'
+    name: RapidJSONAdapter.lib

@@ -126,8 +126,6 @@ macro(configure_standalone)
 	add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)	
 endmacro()
 
-# Configure project
-project(RapidjsonJSONAdapter)
 
 # Configure project to be standalone
 if (CMAKE_BUILD_TYPE STREQUAL "RapidjsonJSONAdapterStandalone")
