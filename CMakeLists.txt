@@ -130,7 +130,7 @@ endmacro()
 project(RapidjsonJSONAdapter)
 
 # Configure project to be standalone
-if (CMAKE_BUILD_TYPE STREQUAL "Standalone")
+if (CMAKE_BUILD_TYPE STREQUAL "RapidjsonJSONAdapterStandalone")
 	configure_standalone()
 endif()
 
