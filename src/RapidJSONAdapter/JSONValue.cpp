@@ -3,6 +3,8 @@
 #include "JSONDocument.h"
 #include "JSONMember.h"
 
+#include <stdexcept>
+
 
 namespace systelab { namespace json { namespace rapidjson {
 
@@ -174,7 +176,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		}
 		else
 		{
-			throw std::exception(std::string("Member '" + name + "' not found").c_str());
+			throw std::runtime_error(std::string("Member '" + name + "' not found").c_str());
 		}
 	}
 
@@ -227,12 +229,12 @@ namespace systelab { namespace json { namespace rapidjson {
 		JSONValue* adapterValueToAdd = dynamic_cast<JSONValue*>(valueToAdd.get());
 		if (!adapterValueToAdd)
 		{
-			throw std::exception("JSONValue::addMember() Provided value is not valid");
+			throw std::runtime_error("JSONValue::addMember() Provided value is not valid");
 		}
 
 		if (&adapterValueToAdd->m_document != &m_document)
 		{
-			throw std::exception("JSONValue::addMember() Provided value does not belong to this document");
+			throw std::runtime_error("JSONValue::addMember() Provided value does not belong to this document");
 		}
 
 		std::unique_ptr<::rapidjson::Value> freeValue = m_document.removeFreeValue(adapterValueToAdd->m_value);
@@ -269,12 +271,12 @@ namespace systelab { namespace json { namespace rapidjson {
 		JSONValue* adapterValueToAdd = dynamic_cast<JSONValue*>(valueToAdd.get());
 		if (!adapterValueToAdd)
 		{
-			throw std::exception("JSONValue::addArrayValue() Provided value is not valid");
+			throw std::runtime_error("JSONValue::addArrayValue() Provided value is not valid");
 		}
 
 		if (&adapterValueToAdd->m_document != &m_document)
 		{
-			throw std::exception("JSONValue::addArrayValue() Provided value does not belong to this document");
+			throw std::runtime_error("JSONValue::addArrayValue() Provided value does not belong to this document");
 		}
 
 		std::unique_ptr<::rapidjson::Value> freeValue = m_document.removeFreeValue(adapterValueToAdd->m_value);
