@@ -116,7 +116,7 @@ macro(configure_standalone)
 	# Setup external test utilities repositories
 	configure_test_utilities_interface()
 	configure_json_adapter_test_utilities()
-	update_submodules();
+	update_submodules()
 
 	# Configure environment
 	set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
