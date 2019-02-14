@@ -1,6 +1,6 @@
 # Configure preprocessor definitions
-add_compile_definitions(RAPIDJSON_HAS_STDSTRING=1)
-add_compile_definitions(BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
+add_compile_options(-DRAPIDJSON_HAS_STDSTRING=1)
+add_compile_options(-DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
 
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
