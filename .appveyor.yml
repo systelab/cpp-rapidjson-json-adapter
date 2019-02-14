@@ -21,5 +21,5 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 artifacts:
-  - path: 'build\$(configuration)\RapidJSONAdapter.lib'
+  - path: 'build\src\RapidJSONAdapter\$(configuration)\RapidJSONAdapter.lib'
     name: RapidJSONAdapter.lib
