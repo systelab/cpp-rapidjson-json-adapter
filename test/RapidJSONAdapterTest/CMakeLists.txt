@@ -1,5 +1,8 @@
 enable_testing()
 
+# Add project folder into includes
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 # Configure test project
 set(RAPIDJSON_ADAPTER_TEST_PROJECT RapidJSONAdapterTest)
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_SRC "*.cpp")
