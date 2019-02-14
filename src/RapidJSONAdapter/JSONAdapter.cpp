@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "JSONAdapter.h"
 
 #include "JSONDocument.h"

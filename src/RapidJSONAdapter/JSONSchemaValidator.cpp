@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "JSONSchemaValidator.h"
 
 #include "JSONAdapterInterface/IJSONDocument.h"
