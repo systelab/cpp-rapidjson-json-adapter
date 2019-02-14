@@ -52,7 +52,7 @@ macro(configure_test_utilities_interface)
 	else()
 		message(STATUS "test/TestUtilities/TestUtilitiesInterface directory not found, cloning...")
 		execute_process(
-				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-json-adapter-test-utilities.git test/TestUtilities/TestUtilitiesInterface
+				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-test-utilities.git test/TestUtilities/TestUtilitiesInterface
 				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 				OUTPUT_VARIABLE     git_output)
 	endif()
