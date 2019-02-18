@@ -10,6 +10,10 @@ configuration:
   - Release
 
 install:
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - pip.exe install conan
+  - conan user
+  - conan --version
   - git submodule update --init --recursive
 
 before_build:
