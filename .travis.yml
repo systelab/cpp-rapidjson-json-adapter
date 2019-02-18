@@ -4,7 +4,7 @@ compiler: gcc
 
 env:
   global:
-    - COVERAGE=On
+    - STANDALONE=On
 
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
@@ -24,7 +24,7 @@ script:
   - mkdir -p build
   - cd build
   - conan install ..
-  - cmake .. -DCMAKE_BUILD_TYPE=RapidjsonJSONAdapterStandalone
+  - cmake .. -DCMAKE_BUILD_TYPE=Coverage
   - make
   - make RapidJSONAdapterTestCoverage
   - cd test

@@ -4,7 +4,10 @@ image: Visual Studio 2017
 
 platform:
   - x64
- 
+
+environment:
+  STANDALONE: On
+
 configuration:
   - Debug
   - Release
@@ -20,7 +23,7 @@ before_build:
   - md build
   - cd build
   - conan install ..
-  - cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=RapidjsonJSONAdapterStandalone
+  - cmake .. -G "Visual Studio 15 2017 Win64"
 
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
