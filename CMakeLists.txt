@@ -106,43 +106,37 @@ macro(update_submodules)
 			OUTPUT_VARIABLE     git_output)	
 endmacro()
 
-macro(configure_standalone)
-	# Configure project
-	project(RapidJSONAdapter)
 
-	# Setup external libraries through conan
-	include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-	conan_basic_setup()	
-	
-	# Setup google_test (before set bin dir)
-	configure_google_test()
-	
-	# Setup external test utilities repositories
-	configure_test_utilities_interface()
-	configure_json_adapter_test_utilities()
-	update_submodules()
+# Configure project
+project(RapidJSONAdapter)
 
-	# Configure environment
-	set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-	set(CMAKE_CXX_STANDARD 14)
-	set(CMAKE_CXX_STANDARD_REQUIRED ON)
-	
-	# Configure include directories
-	include_directories(${CMAKE_SOURCE_DIR}/interface)
-	include_directories(${CMAKE_SOURCE_DIR}/src)
-	include_directories(${CMAKE_SOURCE_DIR}/test)
-	include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
-	
-	# Add test subprojects
-	add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
-	add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)	
-endmacro()
+# Setup external libraries through conan
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()	
 
+# Setup google_test (before set bin dir)
+configure_google_test()
 
-# Configure project to be standalone
-if ("$ENV{STANDALONE}" STREQUAL "On")
-	configure_standalone()
-endif()
+# Setup external test utilities repositories
+configure_test_utilities_interface()
+configure_json_adapter_test_utilities()
+update_submodules()
+
+# Configure environment
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Configure include directories
+include_directories(${CMAKE_SOURCE_DIR}/interface)
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/test)
+include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
 
 # Add library subproject
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
+
+# Add test subprojects
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)	
+
