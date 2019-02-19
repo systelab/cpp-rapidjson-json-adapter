@@ -5,9 +5,6 @@ image: Visual Studio 2017
 platform:
   - x64
 
-environment:
-  STANDALONE: On
-
 configuration:
   - Debug
   - Release

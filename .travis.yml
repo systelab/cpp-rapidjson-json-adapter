@@ -2,10 +2,6 @@ dist: trusty
 language: cpp
 compiler: gcc
 
-env:
-  global:
-    - STANDALONE=On
-
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
