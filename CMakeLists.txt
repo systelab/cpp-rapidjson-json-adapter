@@ -34,93 +34,91 @@ macro(configure_google_test)
 	include(GoogleTest)
 endmacro()
 
-macro(configure_test_utilities_interface)
+macro(configure_test_utilities)
+	# Configure repository to clone
+	set(TEST_UTILITIES_URL https://github.com/systelab/cpp-test-utilities.git)	
+	set(TEST_UTILITIES_DIR extern/TestUtilities)
+	set(TEST_UTILITIES_BRANCH master)
+
 	# Check if git is available
 	find_package(Git)
 	if(NOT GIT_FOUND)
 		message(FATAL_ERROR "git not found!")
 	endif()
 
-	# Clone the test utilities interface repository
-	if(EXISTS ${CMAKE_SOURCE_DIR}/test/TestUtilities/TestUtilitiesInterface)
-		message(STATUS "test/TestUtilities/TestUtilitiesInterface directory found, pulling...")
+	# Clone the test utilities repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/${TEST_UTILITIES_DIR})
+		message(STATUS "${TEST_UTILITIES_DIR} found, pulling...")
 		execute_process(
                 COMMAND             ${GIT_EXECUTABLE} pull origin master
                 COMMAND             ${GIT_EXECUTABLE} submodule update --remote
                 WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
                 OUTPUT_VARIABLE     git_output)
 	else()
-		message(STATUS "test/TestUtilities/TestUtilitiesInterface directory not found, cloning...")
+		message(STATUS "${TEST_UTILITIES_DIR} directory not found, cloning...")
 		execute_process(
-				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-test-utilities.git test/TestUtilities/TestUtilitiesInterface
+				COMMAND             ${GIT_EXECUTABLE} clone ${TEST_UTILITIES_URL} ${TEST_UTILITIES_DIR}
 				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 				OUTPUT_VARIABLE     git_output)
 	endif()
 	
 	# Checkout the right branch
-	set(TEST_UTILITIES_INTERFACE_BRANCH master)
-	message(STATUS "Checking out ${TEST_UTILITIES_INTERFACE_BRANCH} branch...")
+	message(STATUS "Checking out ${TEST_UTILITIES_BRANCH} branch...")
 	execute_process(
-			COMMAND             ${GIT_EXECUTABLE} checkout ${TEST_UTILITIES_INTERFACE_BRANCH}
+			COMMAND             ${GIT_EXECUTABLE} checkout ${TEST_UTILITIES_BRANCH}
 			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
-			OUTPUT_VARIABLE     git_output)	
+			OUTPUT_VARIABLE     git_output)
+			
+	# Add cloned folder into includes
+	include_directories(${CMAKE_SOURCE_DIR}/${TEST_UTILITIES_DIR})	
 endmacro()
 
-macro(configure_json_adapter_test_utilities)
-	# Check if git is available
-	find_package(Git)
-	if(NOT GIT_FOUND)
-		message(FATAL_ERROR "git not found!")
-	endif()
+macro(configure_json_adapter)
+	# Configure repository to clone
+	set(JSON_ADAPTER_URL https://github.com/systelab/cpp-json-adapter.git)	
+	set(JSON_ADAPTER_DIR extern/JSONAdapter)
+	set(JSON_ADAPTER_BRANCH master)
 
-	# Clone the JSON adapter test utilities repository
-	if(EXISTS ${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
-		message(STATUS "test/TestUtilities/JSONAdapterTestUtilities directory found, pulling...")
+	# Clone the JSON adapter repository
+	if(EXISTS ${CMAKE_SOURCE_DIR}/${JSON_ADAPTER_DIR})
+		message(STATUS "${JSON_ADAPTER_DIR} found, pulling...")
 		execute_process(
                 COMMAND             ${GIT_EXECUTABLE} pull origin master
                 COMMAND             ${GIT_EXECUTABLE} submodule update --remote
                 WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
                 OUTPUT_VARIABLE     git_output)
 	else()
-		message(STATUS "test/TestUtilities/JSONAdapterTestUtilities directory not found, cloning...")
+		message(STATUS "${JSON_ADAPTER_DIR} directory not found, cloning...")
 		execute_process(
-				COMMAND             ${GIT_EXECUTABLE} clone https://github.com/systelab/cpp-json-adapter-test-utilities.git test/TestUtilities/JSONAdapterTestUtilities
+				COMMAND             ${GIT_EXECUTABLE} clone ${JSON_ADAPTER_URL} ${JSON_ADAPTER_DIR}
 				WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
 				OUTPUT_VARIABLE     git_output)
 	endif()
 	
 	# Checkout the right branch
-	set(TEST_UTILITIES_INTERFACE_BRANCH master)
-	message(STATUS "Checking out ${TEST_UTILITIES_INTERFACE_BRANCH} branch...")
+	message(STATUS "Checking out ${JSON_ADAPTER_BRANCH} branch...")
 	execute_process(
-			COMMAND             ${GIT_EXECUTABLE} checkout ${TEST_UTILITIES_INTERFACE_BRANCH}
+			COMMAND             ${GIT_EXECUTABLE} checkout ${JSON_ADAPTER_BRANCH}
 			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
-			OUTPUT_VARIABLE     git_output)	
+			OUTPUT_VARIABLE     git_output)
+			
+	# Add cloned folder into includes
+	include_directories(${CMAKE_SOURCE_DIR}/${JSON_ADAPTER_DIR})	
 endmacro()
-
-macro(update_submodules)
-	message(STATUS "Updating submodules...")
-	execute_process(
-			COMMAND             ${GIT_EXECUTABLE} submodule update --init --recursive
-			WORKING_DIRECTORY   ${CMAKE_SOURCE_DIR}
-			OUTPUT_VARIABLE     git_output)	
-endmacro()
-
 
 # Configure project
 project(RapidJSONAdapter)
 
-# Setup external libraries through conan
+# Setup 3rd party libraries through conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()	
 
-# Setup google_test (before set bin dir)
+# Setup google_test
 configure_google_test()
 
-# Setup external test utilities repositories
-configure_test_utilities_interface()
-configure_json_adapter_test_utilities()
-update_submodules()
+# Setup extern repositories
+configure_test_utilities()
+configure_json_adapter()
 
 # Configure environment
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -128,15 +126,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Configure include directories
-include_directories(${CMAKE_SOURCE_DIR}/interface)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/test)
-include_directories(${CMAKE_SOURCE_DIR}/test/TestUtilities)
 
-# Add library subproject
+# Add subprojects
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/RapidJSONAdapter)
-
-# Add test subprojects
-add_subdirectory(${CMAKE_SOURCE_DIR}/test/TestUtilities/JSONAdapterTestUtilities)
-add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)	
-
+add_subdirectory(${CMAKE_SOURCE_DIR}/test/RapidJSONAdapterTest)
+add_subdirectory(${CMAKE_SOURCE_DIR}/extern/JSONAdapter/JSONAdapterTestUtilities)
