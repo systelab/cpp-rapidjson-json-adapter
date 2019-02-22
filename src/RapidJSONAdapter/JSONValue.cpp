@@ -215,6 +215,11 @@ namespace systelab { namespace json { namespace rapidjson {
 		addMember(name, std::move(newNumberValue));
 	}
 
+	void JSONValue::addMember(const std::string& name, const char* value)
+	{
+		addMember(name, std::string(value));
+	}
+
 	void JSONValue::addMember(const std::string& name, const std::string& value)
 	{
 		std::unique_ptr<IJSONValue> newStringValue = buildValue(STRING_TYPE);

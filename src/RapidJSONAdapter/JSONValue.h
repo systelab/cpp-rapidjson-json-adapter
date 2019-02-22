@@ -52,6 +52,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		void addMember(const std::string& name, long value);
 		void addMember(const std::string& name, long long value);
 		void addMember(const std::string& name, double value);
+		void addMember(const std::string& name, const char* value);
 		void addMember(const std::string& name, const std::string& value);
 		void addMember(const std::string& name, std::unique_ptr<IJSONValue>);
 		void removeMember(const std::string& name);
