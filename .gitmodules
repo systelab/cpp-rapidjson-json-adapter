@@ -1,3 +1,0 @@
-[submodule "interface/JSONAdapterInterface"]
-	path = interface/JSONAdapterInterface
-	url = https://github.com/systelab/cpp-json-adapter.git
