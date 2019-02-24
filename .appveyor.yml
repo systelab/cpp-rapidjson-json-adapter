@@ -24,6 +24,13 @@ before_build:
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
+test_script:
+  - ps: cd bin
+  - RapidJSONAdapterTest.exe --gtest_output=xml:RapidJSONAdapterTest.xml
+
+after_test:
+  - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\RapidJSONAdapterTest.xml))
+
 artifacts:
   - path: 'build\lib\RapidJSONAdapter.lib'
     name: RapidJSONAdapter.lib
