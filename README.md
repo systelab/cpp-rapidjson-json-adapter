@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/systelab/cpp-rapidjson-json-adapter.svg?branch=master)](https://travis-ci.org/systelab/cpp-rapidjson-json-adapter)
 [![Build status](https://ci.appveyor.com/api/projects/status/qdrjivrs26gf46lo?svg=true)](https://ci.appveyor.com/project/systelab/cpp-rapidjson-json-adapter)
 [![codecov](https://codecov.io/gh/systelab/cpp-rapidjson-json-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/systelab/cpp-rapidjson-json-adapter)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/492f2b284cd149018ec9dd54a45d53df)](https://www.codacy.com/app/systelab/cpp-rapidjson-json-adapter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/cpp-rapidjson-json-adapter&amp;utm_campaign=Badge_Grade)
 
 # C++ RapidJson JSON Adapter
 
