@@ -42,3 +42,6 @@ artifacts:
 
 deploy_script:
   - conan upload RapidJSONAdapter/0.1@systelab/testing --all -r systelab-bintray
+    on:
+      branch: master
+      APPVEYOR_REPO_TAG: true
