@@ -3,7 +3,6 @@ from conans import ConanFile
 
 class RapidJSONAdapterConan(ConanFile):
     name = "RapidJSONAdapter"
-    version = "0.1"
     description = "C++ JSON adapter based on rapidjson"
     url = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     homepage = "https://github.com/systelab/cpp-rapidjson-json-adapter"
