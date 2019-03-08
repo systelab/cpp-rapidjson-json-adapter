@@ -41,7 +41,7 @@ artifacts:
     name: RapidJSONAdapter.lib
 
 deploy_script:
-  on:
-    branch: master
-    APPVEYOR_REPO_TAG: true
   - conan upload RapidJSONAdapter/0.1@systelab/testing --all -r systelab-bintray
+    on:
+      branch: master
+      APPVEYOR_REPO_TAG: true
