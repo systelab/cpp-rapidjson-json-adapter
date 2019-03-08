@@ -13,6 +13,7 @@ install:
   - set PATH=%PATH%;%PYTHON%/Scripts/
   - pip.exe install conan
   - conan user
+  - conan remote add systelab-bintray https://api.bintray.com/conan/systelab/conan
   - conan --version
 
 before_build:
@@ -24,10 +25,6 @@ before_build:
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
-after_build:
-  - conan export-pkg ../conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=%CONFIGURATION%
-  - conan test ../test_package/conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=%CONFIGURATION%
-
 test_script:
   - ps: cd bin
   - RapidJSONAdapterTest.exe --gtest_output=xml:RapidJSONAdapterTest.xml
@@ -38,3 +35,8 @@ after_test:
 artifacts:
   - path: 'build\lib\RapidJSONAdapter.lib'
     name: RapidJSONAdapter.lib
+
+deploy_script:
+  - conan export-pkg ../conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=%CONFIGURATION%
+  - conan test ../test_package/conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=%CONFIGURATION%
+  - conan upload RapidJSONAdapter/0.1@systelab/testing --all -r systelab-bintray
