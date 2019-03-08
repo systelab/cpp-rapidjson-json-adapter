@@ -6,6 +6,8 @@ init:
   - ps: >- 
       if($env:appveyor_repo_tag -eq 'True') {
         Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
+      } else {
+        Update-AppveyorBuild -Version "1.0.$($env:APPVEYOR_BUILD_NUMBER)"
       }
 
 platform:
