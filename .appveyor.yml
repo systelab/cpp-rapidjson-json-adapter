@@ -32,8 +32,8 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 after_build:
-  - conan export-pkg ../conanfile.py RapidJSONAdapter/%VERSION%@systelab/testing -s build_type=%CONFIGURATION%
-  - conan test ../test_package/conanfile.py RapidJSONAdapter/%VERSION%@systelab/testing -s build_type=%CONFIGURATION%
+  - conan export-pkg ../conanfile.py RapidJSONAdapter/%APPVEYOR_BUILD_VERSION%@systelab/testing -s build_type=%CONFIGURATION%
+  - conan test ../test_package/conanfile.py RapidJSONAdapter/%APPVEYOR_BUILD_VERSION%@systelab/testing -s build_type=%CONFIGURATION%
 
 test_script:
   - ps: cd bin
@@ -48,7 +48,7 @@ artifacts:
 
 deploy_script:
   - if($env:appveyor_repo_tag -eq 'True') {
-      conan upload RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing --all -r systelab-bintray
+      conan upload RapidJSONAdapter/%APPVEYOR_BUILD_VERSION%@systelab/testing --all -r systelab-bintray
     } else {
       echo "Not uploading because this is not a tag build"
     }
