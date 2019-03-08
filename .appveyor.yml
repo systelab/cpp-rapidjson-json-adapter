@@ -24,6 +24,10 @@ before_build:
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
+after_build:
+  - conan export-pkg ../conanfile.py RapidJSONAdapter/0.1@systelab/testing
+  - conan test ../test_package/conanfile.py RapidJSONAdapter/0.1@systelab/testing
+
 test_script:
   - ps: cd bin
   - RapidJSONAdapterTest.exe --gtest_output=xml:RapidJSONAdapterTest.xml
