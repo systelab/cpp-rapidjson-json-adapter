@@ -26,7 +26,7 @@ build:
 
 after_build:
   - conan export-pkg ../conanfile.py RapidJSONAdapter/0.1@systelab/testing
-  - conan test ../test_package/conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=$(configuration)
+  - conan test ../test_package/conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type={configuration}
 
 test_script:
   - ps: cd bin
