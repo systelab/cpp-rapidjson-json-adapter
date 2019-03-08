@@ -25,7 +25,7 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 after_build:
-  - conan export-pkg ../conanfile.py RapidJSONAdapter/0.1@systelab/testing
+  - conan export-pkg ../conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=%CONFIGURATION%
   - conan test ../test_package/conanfile.py RapidJSONAdapter/0.1@systelab/testing -s build_type=%CONFIGURATION%
 
 test_script:
