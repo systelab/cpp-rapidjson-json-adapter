@@ -26,9 +26,6 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 after_build:
-  on:
-    branch: master
-    APPVEYOR_REPO_TAG: true
   - conan export-pkg ../conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION%
   - conan test ../test_package/conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION%
 
