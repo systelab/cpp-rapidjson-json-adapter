@@ -26,8 +26,8 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 after_build:
-  - conan export-pkg ../conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION%
-  - conan test ../test_package/conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION%
+  - ps: if($env:appveyor_repo_tag -eq 'True') { conan export-pkg ../conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION% }
+  - ps: if($env:appveyor_repo_tag -eq 'True') { conan test ../test_package/conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION% }
 
 test_script:
   - ps: cd bin
@@ -41,7 +41,4 @@ artifacts:
     name: RapidJSONAdapter.lib
 
 deploy_script:
-  - conan upload RapidJSONAdapter/0.1@systelab/testing --all -r systelab-bintray
-    on:
-      branch: master
-      APPVEYOR_REPO_TAG: true
+  - ps: if($env:appveyor_repo_tag -eq 'True') { conan upload RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing --all -r systelab-bintray }
