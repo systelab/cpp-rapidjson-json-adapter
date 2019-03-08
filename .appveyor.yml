@@ -3,7 +3,7 @@ version: '1.0.{build}'
 image: Visual Studio 2017
 
 init:
-  - ps: if($env:appveyor_repo_tag -eq 'True') {
+  - if($env:appveyor_repo_tag -eq 'True') {
       Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
     }
 
