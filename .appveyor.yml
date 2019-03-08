@@ -46,8 +46,9 @@ artifacts:
     name: RapidJSONAdapter.lib
 
 deploy_script:
-  - ps: if($env:appveyor_repo_tag -eq 'True') {
+  - if($env:appveyor_repo_tag -eq 'True') {
       conan upload RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing --all -r systelab-bintray
     } else {
       echo "Not uploading because this is not a tag build"
     }
+
