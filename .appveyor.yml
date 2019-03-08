@@ -3,11 +3,9 @@ version: '1.0.{build}'
 image: Visual Studio 2017
 
 init:
-  - ps: >- 
+  - ps: >-
       if($env:appveyor_repo_tag -eq 'True') {
         Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
-      } else {
-        Update-AppveyorBuild -Version "1.0.$($env:APPVEYOR_BUILD_NUMBER)"
       }
 
 platform:
@@ -49,9 +47,10 @@ artifacts:
     name: RapidJSONAdapter.lib
 
 deploy_script:
-  - if($env:appveyor_repo_tag -eq 'True') {
-      conan upload RapidJSONAdapter/%APPVEYOR_BUILD_VERSION%@systelab/testing --all -r systelab-bintray
-    } else {
-      echo "Not uploading because this is not a tag build"
-    }
+  - ps: >- 
+      if($env:appveyor_repo_tag -eq 'True') {
+        conan upload RapidJSONAdapter/%APPVEYOR_BUILD_VERSION%@systelab/testing --all -r systelab-bintray
+      } else {
+        echo "Not uploading because this is not a tag build"
+      }
 
