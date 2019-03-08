@@ -26,8 +26,12 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\RapidJSONAdapter.sln
 
 after_build:
-  - ps: if($env:appveyor_repo_tag -eq 'True') { conan export-pkg ../conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION% }
-  - ps: if($env:appveyor_repo_tag -eq 'True') { conan test ../test_package/conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION% }
+  - ps: if($env:appveyor_repo_tag -eq 'True') {
+             conan export-pkg ../conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION%
+             conan test ../test_package/conanfile.py RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing -s build_type=%CONFIGURATION%
+        } else {
+             echo "Not exporting package because this is not a tag build"
+        }
 
 test_script:
   - ps: cd bin
@@ -41,4 +45,4 @@ artifacts:
     name: RapidJSONAdapter.lib
 
 deploy_script:
-  - ps: if($env:appveyor_repo_tag -eq 'True') { conan upload RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing --all -r systelab-bintray }
+  - ps: if($env:appveyor_repo_tag -eq 'True') { conan upload RapidJSONAdapter/%APPVEYOR_REPO_TAG_NAME%@systelab/testing --all -r systelab-bintray } else { echo "Not uploading because this is not a tag build" }
