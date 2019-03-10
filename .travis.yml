@@ -38,7 +38,7 @@ script:
   - cd ..
   - cd ..
   - |
-    if [ "$BUILD_TYPE" == "Release" ] || ["$BUILD_TYPE" == "Debug"]; then
+    if [ "$BUILD_TYPE" == "Release" ] || [ "$BUILD_TYPE" == "Debug" ]; then
       if [ -n "$TRAVIS_TAG" ]; then
         conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
         conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
