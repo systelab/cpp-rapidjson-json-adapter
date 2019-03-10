@@ -16,7 +16,7 @@ install:
   - conan user
 
 env:
-  - PACKAGE_VERSION=$(if [-z "$TRAVIS_TAG"]; then echo "1.0.${TRAVIS_BUILD_NUMBER}"; else echo "${TRAVIS_TAG:1}"; fi)
+  - PACKAGE_VERSION=$(if [[-v "$TRAVIS_TAG"]]; then echo "1.0.${TRAVIS_BUILD_NUMBER}"; else echo "${TRAVIS_TAG:1}"; fi)
 
 script:    
   - g++ --version
