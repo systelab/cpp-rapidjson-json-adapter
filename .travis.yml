@@ -16,12 +16,7 @@ install:
   - conan user
 
 env:
-  - PACKAGE_VERSION=concat("1.0.", env(TRAVIS_BUILD_NUMBER))
-    on:
-       tags: false
-  - PACKAGE_VERSION = ${TRAVIS_TAG:1}
-    on:
-       tags: true
+  - PACKAGE_VERSION=$(if [-z "$TRAVIS_TAG"]; then echo "1.0.${TRAVIS_BUILD_NUMBER}"; else echo "${TRAVIS_TAG:1}"; fi)
 
 script:    
   - g++ --version
@@ -39,10 +34,10 @@ before_deploy:
   - conan export-pkg ../conanfile.py RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing
   - conan test ../test_package/conanfile.py RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing
 
-after_deploy:
-  - conan upload RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing --all -r systelab-bintray
-  on:
-    tags: true
+#after_deploy:
+#  - conan upload RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing --all -r systelab-bintray
+#  on:
+#    tags: true
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
