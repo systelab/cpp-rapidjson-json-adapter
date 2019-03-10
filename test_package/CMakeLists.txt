@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(PackageTest CXX)
+project(RapidJSONAdapterPackageTest CXX)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_executable(RapidJSONAdapterExample RapidJSONAdapterExample.cpp)
-target_link_libraries(RapidJSONAdapterExample ${CONAN_LIBS})
+set(RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT RapidJSONAdapterPackageTest)
+file(GLOB_RECURSE RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT_SRC "*.cpp")
+add_executable(${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT} ${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT_SRC})
+target_link_libraries(${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT} ${CONAN_LIBS})
+
+message(STATUS "CONAN_LIBS: ${CONAN_LIBS}")
