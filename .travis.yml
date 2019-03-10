@@ -31,6 +31,7 @@ script:
   - cd RapidJSONAdapterTest
   - ctest
   - cd ..
+  - cd ..
   - conan export-pkg ../conanfile.py RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing
   - conan test ../test_package/conanfile.py RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing
 
