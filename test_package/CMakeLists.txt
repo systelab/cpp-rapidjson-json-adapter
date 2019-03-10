@@ -6,6 +6,7 @@ project(RapidJSONAdapterPackageTestProject CXX)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Setup 3rd party libraries through conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
