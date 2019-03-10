@@ -44,6 +44,8 @@ script:
         conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
       else
         conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
+        conan get "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing" .
+        conan get "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing" conanmanifest.txt
         conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
       fi
     fi
