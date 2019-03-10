@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(RapidJSONAdapterPackageTest CXX)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
@@ -9,4 +11,5 @@ file(GLOB_RECURSE RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT_SRC "*.cpp")
 add_executable(${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT} ${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT_SRC})
 target_link_libraries(${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT} ${CONAN_LIBS})
 
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 message(STATUS "CONAN_LIBS: ${CONAN_LIBS}")
