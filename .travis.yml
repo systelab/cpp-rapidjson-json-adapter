@@ -4,9 +4,11 @@ compiler: gcc
 
 matrix:
     - compiler: gcc
-      env: BUILD_TYPE=Release
+      env: BUILD_TYPE=Release CONAN_BUILD_TYPE=Release
     - compiler: gcc
-      env: BUILD_TYPE=Coverage
+      env: BUILD_TYPE=Debug CONAN_BUILD_TYPE=Debug
+    - compiler: gcc
+      env: BUILD_TYPE=Coverage CONAN_BUILD_TYPE=Debug
 
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
@@ -25,26 +27,23 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - conan install ..
+  - conan install .. -s build_type=${CONAN_BUILD_TYPE}
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
-  - |
-    if [ "${BUILD_TYPE}" == "Coverage" ]; then
-      make RapidJSONAdapterTestCoverage
-    fi
+  - if [ "$BUILD_TYPE" == "Coverage" ]; then make RapidJSONAdapterTestCoverage; fi
   - cd test
   - cd RapidJSONAdapterTest
   - ctest
   - cd ..
   - cd ..
   - |
-    if [ "${BUILD_TYPE}" == "Release" ]; then
-      if [ "${TRAVIS_TAG}" == "" ]; then
-        conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing";
-        conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing"
+    if [ "$BUILD_TYPE" == "Release" ] || ["$BUILD_TYPE" == "Debug"]; then
+      if [ -n "$TRAVIS_TAG" ]; then
+        conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
+        conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE}
       else
-        conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing";
-        conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing"
+        conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE};
+        conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing" -s build_type=${CONAN_BUILD_TYPE}
       fi
     fi
 
@@ -56,7 +55,4 @@ deploy:
     condition: $BUILD_TYPE = "Coverage"
 
 after_success:
-  - |
-    if [ "${BUILD_TYPE}" == "Coverage" ]; then
-      bash <(curl -s https://codecov.io/bash);
-    fi
+  - if [ "$BUILD_TYPE" == "Coverage" ]; then bash <(curl -s "https://codecov.io/bash"); fi
