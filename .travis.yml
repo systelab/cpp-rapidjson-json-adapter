@@ -18,7 +18,8 @@ install:
 script:
   - if ["${TRAVIS_TAG}" != ""]; then
     PACKAGE_VERSION="${TRAVIS_TAG:1}";
-    else PACKAGE_VERSION="1.0.${TRAVIS_BUILD_NUMBER}"; fi)
+    else PACKAGE_VERSION="1.0.${TRAVIS_BUILD_NUMBER}";
+    fi
   - echo "PACKAGE_VERSION=$PACKAGE_VERSION"
   - g++ --version
   - mkdir -p build
