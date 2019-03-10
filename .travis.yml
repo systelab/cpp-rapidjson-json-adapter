@@ -28,15 +28,18 @@ script:
   - conan install ..
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
-  - make RapidJSONAdapterTestCoverage
+  - |
+    if [ "${BUILD_TYPE}" == "Coverage" ]; then
+      make RapidJSONAdapterTestCoverage
+    fi
   - cd test
   - cd RapidJSONAdapterTest
   - ctest
   - cd ..
   - cd ..
   - |
-    if [ "${BUILD_TYPE}" == "Release"]; then
-      if [ "${TRAVIS_TAG}" == ""]; then
+    if [ "${BUILD_TYPE}" == "Release" ]; then
+      if [ "${TRAVIS_TAG}" == "" ]; then
         conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing";
         conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing"
       else
