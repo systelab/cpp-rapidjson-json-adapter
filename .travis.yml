@@ -28,6 +28,8 @@ script:
   - ctest
   - cd ..
   - cd ..
+  - cmake .. -DCMAKE_BUILD_TYPE=Release
+  - make
   - |
     if [ "${TRAVIS_TAG}" != ""]; then
       conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing";
