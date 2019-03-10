@@ -36,12 +36,12 @@ script:
   - cd ..
   - |
     if [ "${BUILD_TYPE}" == "Release"]; then
-      if [ "${TRAVIS_TAG}" != ""]; then
-        conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing";
-        conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing"
-      else
+      if [ "${TRAVIS_TAG}" == ""]; then
         conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing";
         conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing"
+      else
+        conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing";
+        conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing"
       fi
     fi
 
