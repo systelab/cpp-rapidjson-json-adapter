@@ -19,11 +19,11 @@ class RapidJSONAdapterConan(ConanFile):
         self.copy("*.h", dst="include/JSONAdapterInterface", src="extern/JSONAdapter/JSONAdapterInterface")
         self.copy("*.h", dst="include/JSONAdapterTestUtilities", src="extern/JSONAdapter/JSONAdapterTestUtilities")
         self.copy("*.h", dst="include/RapidJSONAdapter", src="src/RapidJSONAdapter")
-        self.copy("*.lib", dst="lib", keep_path=False)
+        self.copy("*RapidJSONAdapter.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.dylib*", dst="lib", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
-        self.copy("libRapidJSONAdapter.a", dst="lib", keep_path=False)
+        self.copy("*RapidJSONAdapter.a", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
