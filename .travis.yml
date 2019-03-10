@@ -35,10 +35,11 @@ before_deploy:
   - conan export-pkg ../conanfile.py RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing
   - conan test ../test_package/conanfile.py RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing
 
-#after_deploy:
-#  - conan upload RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing --all -r systelab-bintray
-#  on:
-#    tags: true
+deploy:
+  provider: script
+  script: conan upload RapidJSONAdapter/$PACKAGE_VERSION@systelab/testing --all -r systelab-bintray
+  on:
+    tags: true
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
