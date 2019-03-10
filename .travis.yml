@@ -2,6 +2,12 @@ dist: xenial
 language: cpp
 compiler: gcc
 
+matrix:
+    - compiler: gcc
+      env: BUILD_TYPE=Release
+    - compiler: gcc
+      env: BUILD_TYPE=Coverage
+
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
@@ -20,7 +26,7 @@ script:
   - mkdir -p build
   - cd build
   - conan install ..
-  - cmake .. -DCMAKE_BUILD_TYPE=Coverage
+  - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
   - make RapidJSONAdapterTestCoverage
   - cd test
@@ -28,15 +34,15 @@ script:
   - ctest
   - cd ..
   - cd ..
-  - cmake .. -DCMAKE_BUILD_TYPE=Release
-  - make
   - |
-    if [ "${TRAVIS_TAG}" != ""]; then
-      conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing";
-      conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing"
-    else
-      conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing";
-      conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing"
+    if [ "${BUILD_TYPE}" == "Release"]; then
+      if [ "${TRAVIS_TAG}" != ""]; then
+        conan export-pkg ../conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing";
+        conan test ../test_package/conanfile.py "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing"
+      else
+        conan export-pkg ../conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing";
+        conan test ../test_package/conanfile.py "RapidJSONAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/testing"
+      fi
     fi
 
 deploy:
@@ -44,6 +50,10 @@ deploy:
   script: conan upload "RapidJSONAdapter/${TRAVIS_TAG:1}@systelab/testing" --all -r systelab-bintray
   on:
     tags: true
+    condition: $BUILD_TYPE = "Coverage"
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - |
+    if [ "${BUILD_TYPE}" == "Coverage" ]; then
+      bash <(curl -s https://codecov.io/bash);
+    fi
