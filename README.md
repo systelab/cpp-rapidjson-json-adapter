@@ -5,25 +5,73 @@
 
 # C++ JSON Adapter implementation for rapidjson
 
-## Download
+This repository implements the interface for the [C++ JSON Server Adapter](https://github.com/systelab/cpp-json-adapter) using [Rapidjson](http://rapidjson.org).
 
-Remember to clone the repository with "--recursive" flag, otherwise the 'cpp-json-adapter' will not be downloaded.
+## Setup
 
-## Build
+### Build from sources
 
-The easiest way to deal with the cpp-rapidjson-json-adapter is just open the "CMakeLists.txt" with your QtCreator. However, since it is a CMake project, you don't really need an "IDE" to work with. 
+Prerequisites:
+  - [Git](https://git-scm.com/)
+  - [Conan](https://conan.io/)
+  - [CMake](https://cmake.org/)
+  - [Visual Studio](https://visualstudio.microsoft.com/) (only on Windows)
+  - [GCC](https://gcc.gnu.org/) (only on Linux)
 
-You can build the project from source directly from command line following these steps:  
+Build library with the following steps:
+  1. Clone this repository in a local drive
+  2. Make a build directory (i.e. `build/`)
+  3. Install `conan` dependencies in the build directory
+  4. Run `cmake` in the build directory to configure build targets
+  5. Use `Visual Studio` (on Windows) or `make` (on Linux) to build the library
 
-(In cpp-rapidjson-jsondb-adapter folder)  
+#### Windows
+``` bash
+> git clone https://github.com/systelab/cpp-rapidjson-json-adapter
+> md build && cd build
+> conan install .. -s arch=x86
+> cmake ..
+> devenv.exe RapidJSONAdapter.sln
+```
 
-	$mkdir build  
-	$cd build  
-	$cmake ..
+#### Linux
+``` bash
+> git clone https://github.com/systelab/cpp-boostasio-webserver-adapter
+> mkdir build && cd build
+> conan install ..
+> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
+> make
+```
 
-Windows:  
+### Download using Conan (not available yet)
 
-	-	CMake will create a Visual Studio Solution from where you can easily modify and compile your project.  
+  1. Create/update your `conanfile.txt` to add this library as follows:
 
-POSIX:  
-	-	CMake will create a Makefile from where you can build your binaries by simply calling "$make" command.  
+```
+[requires]
+RapidJSONAdapter/1.0.0@systelab/stable
+
+[generators]
+cmake
+```
+
+  2. Integrate Conan into CMake by adding the following code into your `CMakeLists.txt`:
+
+```cmake
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+```
+
+  3. Link against `${CONAN_LIBS}` when configuring your executables in CMake:
+
+```cmake
+set(MY_PROJECT MyProject)
+add_executable(${MY_PROJECT} main.cpp)
+target_link_libraries(${MY_PROJECT} ${CONAN_LIBS})
+```
+
+## Usage
+
+```cpp
+TBD
+```
