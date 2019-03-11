@@ -7,6 +7,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Adjust compilation flags
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=implicit-fallthrough")
+endif()
+
 # Setup up Google test
 include(ConfigureGoogleTest)
 configure_google_test()
