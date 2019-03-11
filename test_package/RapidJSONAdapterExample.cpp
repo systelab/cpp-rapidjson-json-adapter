@@ -7,7 +7,7 @@
 #include <iostream>
 
 
-int main()
+int main(int argc, char *argv[])
 {
     std::unique_ptr<systelab::json::IJSONAdapter> jsonAdapter = std::make_unique<systelab::json::rapidjson::JSONAdapter>();
     std::unique_ptr<systelab::json::IJSONDocument> document = jsonAdapter->buildDocumentFromString("{\"working\":\"false\"}");
