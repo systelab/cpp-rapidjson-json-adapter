@@ -31,10 +31,12 @@ script:
   - conan install .. -s build_type=${CONAN_BUILD_TYPE}
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
+  - cd bin
+  - ./RapidJSONAdapterTest
+  - cd ..
   - if [ "$BUILD_TYPE" == "Coverage" ]; then make RapidJSONAdapterTestCoverage; fi
   - cd test
   - cd RapidJSONAdapterTest
-  - ./RapidJSONAdapterTest
   - ctest
   - cd ..
   - cd ..
