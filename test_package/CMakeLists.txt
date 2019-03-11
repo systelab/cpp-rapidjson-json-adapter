@@ -5,6 +5,7 @@ project(RapidJSONAdapterPackageTestProject)
 # Configure environment
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-DRAPIDJSON_HAS_STDSTRING=1)
 
 # Setup 3rd party libraries through conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
