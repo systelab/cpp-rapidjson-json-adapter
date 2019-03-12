@@ -72,6 +72,12 @@ target_link_libraries(${MY_PROJECT} ${CONAN_LIBS})
 
 ## Usage
 
+Initialize the JSON adapter by creating an instance of the `systelab::json::rapidjson::JSONAdapter` class:
+
 ```cpp
-TBD
+#include "RapidJSONAdapter/JSONAdapter.h"
+
+std::unique_ptr<systelab::json::IJSONAdapter> jsonAdapter = std::make<systelab::json::rapidjson::JSONAdapter>();
 ```
+
+Use the `systelab::json::IJSONAdapter` interface of the created object to access to the JSON features as described on [C++ JSON Adapter](https://github.com/systelab/cpp-json-adapter) documentation.
