@@ -62,9 +62,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		m_schemaDocument = std::make_unique<::rapidjson::SchemaDocument>(jsonDocument, m_rapidjsonRemoteSchemaProvider.get());
 	}
 
-	JSONSchemaValidator::~JSONSchemaValidator()
-	{
-	}
+	JSONSchemaValidator::~JSONSchemaValidator() = default;
 
 	bool JSONSchemaValidator::validate(const IJSONDocument& inputDocument, std::string& reason) const
 	{

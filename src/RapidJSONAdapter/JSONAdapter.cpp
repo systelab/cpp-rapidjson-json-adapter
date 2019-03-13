@@ -10,9 +10,7 @@ namespace systelab { namespace json { namespace rapidjson {
 	{
 	}
 
-	JSONAdapter::~JSONAdapter()
-	{
-	}
+	JSONAdapter::~JSONAdapter() = default;
 
 	std::unique_ptr<IJSONDocument> JSONAdapter::buildEmptyDocument() const
 	{

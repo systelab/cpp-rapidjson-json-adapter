@@ -14,9 +14,7 @@ namespace systelab { namespace json { namespace rapidjson {
 	{
 	}
 
-	JSONMember::~JSONMember()
-	{
-	}
+	JSONMember::~JSONMember() = default;
 
 	std::string JSONMember::getName() const
 	{

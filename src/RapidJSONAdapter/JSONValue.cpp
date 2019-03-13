@@ -21,9 +21,7 @@ namespace systelab { namespace json { namespace rapidjson {
 	{
 	}
 
-	JSONValue::~JSONValue()
-	{
-	}
+	JSONValue::~JSONValue() = default;
 
 	Type JSONValue::getType() const
 	{

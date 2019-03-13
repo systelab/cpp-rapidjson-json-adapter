@@ -15,9 +15,7 @@ namespace systelab { namespace json { namespace rapidjson {
 	{
 	}
 
-	JSONDocument::~JSONDocument()
-	{
-	}
+	JSONDocument::~JSONDocument() = default;
 
 	IJSONValue& JSONDocument::getRootValue()
 	{
