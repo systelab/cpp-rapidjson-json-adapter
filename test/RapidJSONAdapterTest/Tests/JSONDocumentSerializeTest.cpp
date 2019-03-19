@@ -1,12 +1,10 @@
-#include "RapidJSONAdapter/JSONAdapter.h"
+#include "stdafx.h"
 
+#include "RapidJSONAdapter/JSONAdapter.h"
 #include "RapidJSONAdapter/JSONDocument.h"
 #include "RapidJSONAdapter/JSONValue.h"
 
 #include "JSONAdapterTestUtilities/JSONAdapterUtilities.h"
-
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 
 using namespace testing;
