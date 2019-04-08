@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/qdrjivrs26gf46lo?svg=true)](https://ci.appveyor.com/project/systelab/cpp-rapidjson-json-adapter)
 [![codecov](https://codecov.io/gh/systelab/cpp-rapidjson-json-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/systelab/cpp-rapidjson-json-adapter)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/492f2b284cd149018ec9dd54a45d53df)](https://www.codacy.com/app/systelab/cpp-rapidjson-json-adapter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/cpp-rapidjson-json-adapter&amp;utm_campaign=Badge_Grade)
-[![Download](https://api.bintray.com/packages/systelab/conan/RapidJSONAdapter:systelab/images/download.svg?version=1.0.0:stable)](https://bintray.com/systelab/conan/RapidJSONAdapter:systelab/1.0.0:stable/link)
+[![Download](https://api.bintray.com/packages/systelab/conan/RapidJSONAdapter:systelab/images/download.svg)](https://bintray.com/systelab/conan/RapidJSONAdapter:systelab/_latestVersion)
 
 
 # C++ JSON Adapter implementation for rapidjson
