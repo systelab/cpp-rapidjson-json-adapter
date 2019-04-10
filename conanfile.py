@@ -6,7 +6,7 @@ class RapidJSONAdapterConan(ConanFile):
     url = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     homepage = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     author = "CSW <csw@werfen.com>"
-    topics = ("conan", "rapidjson", "json", "wrapper")	
+    topics = ("conan", "rapidjson", "json", "wrapper")
     license = "MIT"
     generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
