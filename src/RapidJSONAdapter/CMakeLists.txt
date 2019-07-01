@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
 # Find external dependencides
-find_package(JSONAdapter)
 find_package(rapidjson)
 
 # Configure preprocessor definitions
@@ -16,7 +15,7 @@ set(RAPIDJSON_ADAPTER RapidJSONAdapter)
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_SRC "*.cpp")
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_HDR "*.h")
 add_library(${RAPIDJSON_ADAPTER} STATIC ${RAPIDJSON_ADAPTER_SRC} ${RAPIDJSON_ADAPTER_HDR})
-target_link_libraries(${RAPIDJSON_ADAPTER} JSONAdapter::JSONAdapter rapidjson::rapidjson)
+target_link_libraries(${RAPIDJSON_ADAPTER} JSONAdapter rapidjson::rapidjson)
 
 #Configure source groups
 foreach(FILE ${RAPIDJSON_ADAPTER_SRC} ${RAPIDJSON_ADAPTER_HDR}) 
