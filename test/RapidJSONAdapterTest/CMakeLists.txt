@@ -1,5 +1,9 @@
 enable_testing()
 
+# Find external dependencides
+find_package(rapidjson)
+find_package(JSONAdapter)
+
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -8,7 +12,7 @@ set(RAPIDJSON_ADAPTER_TEST_PROJECT RapidJSONAdapterTest)
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_SRC "*.cpp")
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_HDR "*.h")
 add_executable(${RAPIDJSON_ADAPTER_TEST_PROJECT} ${RAPIDJSON_ADAPTER_TEST_PROJECT_SRC} ${RAPIDJSON_ADAPTER_TEST_PROJECT_HDR})
-target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} ${CONAN_LIBS} RapidJSONAdapter JSONAdapterTestUtilities)
+target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} RapidJSONAdapter JSONAdapter::JSONAdapter rapidjson::rapidjson JSONAdapterTestUtilities)
 
 #Configure source groups
 foreach(FILE ${RAPIDJSON_ADAPTER_TEST_PROJECT_SRC} ${RAPIDJSON_ADAPTER_TEST_PROJECT_HDR}) 

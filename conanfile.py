@@ -8,7 +8,7 @@ class RapidJSONAdapterConan(ConanFile):
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "rapidjson", "json", "wrapper")
     license = "MIT"
-    generators = "cmake"
+    generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
