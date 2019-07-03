@@ -37,7 +37,7 @@ after_build:
 
 test_script:
   - ps: cd bin
-  - ps: cd %CONFIGURATION%
+  - ps: cd $env:CONFIGURATION
   - RapidJSONAdapterTest.exe --gtest_output=xml:RapidJSONAdapterTest.xml
 
 after_test:
