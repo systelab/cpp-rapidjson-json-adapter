@@ -12,7 +12,7 @@ class RapidJSONAdapterConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("JSONAdapter/1.0.1@systelab/stable")
+        self.requires("JSONAdapter/1.0.2@systelab/stable")
         self.requires("rapidjson/1.1.0@bincrafters/stable")
 
     def imports(self):
