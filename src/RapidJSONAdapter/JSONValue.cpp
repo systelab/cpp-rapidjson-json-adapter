@@ -141,6 +141,16 @@ namespace systelab { namespace json { namespace rapidjson {
 		m_value.SetDouble(value);
 	}
 
+	bool JSONValue::isNull() const
+	{
+		return m_value.IsNull();
+	}
+
+	void JSONValue::setNull()
+	{
+		m_value.SetNull();
+	}
+
 	unsigned int JSONValue::getObjectMemberCount() const
 	{
 		return m_value.GetObject().MemberCount();

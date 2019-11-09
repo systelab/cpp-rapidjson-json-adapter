@@ -41,6 +41,10 @@ namespace systelab { namespace json { namespace rapidjson {
 		void setLongLong(long long);
 		void setDouble(double);
 
+		// Only for Null values
+		bool isNull() const;
+		void setNull();
+		
 		// Only for object values
 		unsigned int getObjectMemberCount() const;
 		bool hasObjectMember(const std::string&) const;
