@@ -17,14 +17,14 @@ class RapidJSONAdapterConan(ConanFile):
         self.options["JSONAdapterTestUtilities"].gtest = self.options.gtest
 
     def build_requirements(self):
-        self.build_requires("JSONAdapterTestUtilities/1.0.3@systelab/stable")
+        self.build_requires("JSONAdapterTestUtilities/1.0.4@systelab/stable")
         if self.options.gtest == "1.7.0":
             self.build_requires("gtest/1.7.0@systelab/stable")
         else:
             self.build_requires("gtest/1.8.1@bincrafters/stable")
 
     def requirements(self):
-        self.requires("JSONAdapterInterface/1.0.3@systelab/stable")
+        self.requires("JSONAdapterInterface/1.0.4@systelab/stable")
         self.requires("rapidjson/1.1.0@bincrafters/stable")
 
     def build(self):
