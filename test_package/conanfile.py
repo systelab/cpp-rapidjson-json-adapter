@@ -1,5 +1,4 @@
-import os
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake
 
 class RapidJSONAdapterTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
