@@ -12,6 +12,7 @@ class RapidJSONAdapterConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"gtest": ["1.7.0", "1.8.1"]}
     default_options = "gtest=1.8.1"
+    exports_sources = "*"
 
     def configure(self):
         self.options["JSONAdapterTestUtilities"].gtest = self.options.gtest
