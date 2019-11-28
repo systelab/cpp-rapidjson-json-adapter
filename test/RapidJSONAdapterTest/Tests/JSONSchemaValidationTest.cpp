@@ -41,9 +41,34 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 			return ss.str();
 		}
 
-		std::string getComplexSchemaDocument()
+		std::string getComplexTypesSchemaDocument()
 		{
-			throw std::runtime_error("TODO");
+			std::stringstream ss;
+			ss << "{" << std::endl;
+			ss << "    \"type\": \"object\"," << std::endl;
+			ss << "    \"properties\":" << std::endl;
+			ss << "    {" << std::endl;
+			ss << "        \"arrayField\":" << std::endl;
+			ss << "        {" << std::endl;
+			ss << "            \"type\": \"array\"," << std::endl;
+			ss << "            \"items\": { \"type\": \"string\" }," << std::endl;
+			ss << "            \"minItems\": 2," << std::endl;
+			ss << "            \"maxItems\": 5" << std::endl;
+			ss << "        }," << std::endl;
+			ss << "        \"objField\":" << std::endl;
+			ss << "        {" << std::endl;
+			ss << "            \"type\": \"object\"," << std::endl;
+			ss << "            \"properties\":" << std::endl;
+			ss << "            {" << std::endl;
+			ss << "                \"intSubField\": { \"type\": \"integer\" }," << std::endl;
+			ss << "                \"boolSubField\": { \"type\": \"boolean\" }" << std::endl;
+			ss << "            }," << std::endl;
+			ss << "            \"required\": [\"intSubField\", \"boolSubField\"]" << std::endl;
+			ss << "        }" << std::endl;
+			ss << "    }" << std::endl;
+			ss << "}" << std::endl;
+
+			return ss.str();
 		}
 
 	protected:
@@ -238,6 +263,50 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		std::string document = ss.str();
 
 		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+
+	// Complex types schema
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsTrueForJSONWithAllDefinedFields)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"arrayField\": [\"a\", \"b\", \"c\"]," << std::endl;
+		ss << "    \"objField\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"intSubField\": 123," << std::endl;
+		ss << "        \"boolSubField\": false" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_TRUE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsTrueForJSONWithOnlyArrayField)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"arrayField\": [\"a\", \"b\", \"c\"]" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_TRUE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsTrueForJSONWithOnlyObjectField)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"objField\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"intSubField\": 123," << std::endl;
+		ss << "        \"boolSubField\": false" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_TRUE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
 	}
 
 }}}}
