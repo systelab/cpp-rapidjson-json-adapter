@@ -63,7 +63,8 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 			ss << "                \"intSubField\": { \"type\": \"integer\" }," << std::endl;
 			ss << "                \"boolSubField\": { \"type\": \"boolean\" }" << std::endl;
 			ss << "            }," << std::endl;
-			ss << "            \"required\": [\"intSubField\", \"boolSubField\"]" << std::endl;
+			ss << "            \"required\": [\"intSubField\", \"boolSubField\"]," << std::endl;
+			ss << "            \"additionalProperties\": false" << std::endl;
 			ss << "        }" << std::endl;
 			ss << "    }" << std::endl;
 			ss << "}" << std::endl;
@@ -307,6 +308,67 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		std::string document = ss.str();
 
 		ASSERT_TRUE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsFalseForJSONWithArrayPropertyWithWrongTypeValues)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"arrayField\": [1, 2, 3, 4]" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsFalseForJSONWithArrayPropertyWithNotEnoughItems)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"arrayField\": [\"a\"]" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsFalseForJSONWithArrayPropertyWithTooMuchItems)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"arrayField\": [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\"]" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsFalseForJSONWithObjectPropertyWithMissingRequiredProperty)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"objField\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"intSubField\": 123" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testComplexTypesSchemaValidationReturnsFalseForJSONWithObjectPropertyWithAdditionalProperty)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"objField\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"additionalSubField\": 123" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getComplexTypesSchemaDocument(), *m_jsonAdapter));
 	}
 
 }}}}
