@@ -14,6 +14,11 @@ file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_HDR "*.h")
 add_executable(${RAPIDJSON_ADAPTER_TEST_PROJECT} ${RAPIDJSON_ADAPTER_TEST_PROJECT_SRC} ${RAPIDJSON_ADAPTER_TEST_PROJECT_HDR})
 target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} RapidJSONAdapter JSONAdapterTestUtilities::JSONAdapterTestUtilities gtest::gtest)
 
+# Ignored missing PDBs link warning on Visual Studio
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set_target_properties(${RAPIDJSON_ADAPTER_TEST_PROJECT} PROPERTIES LINK_FLAGS "/ignore:4099")
+endif()
+
 #Configure source groups
 foreach(FILE ${RAPIDJSON_ADAPTER_TEST_PROJECT_SRC} ${RAPIDJSON_ADAPTER_TEST_PROJECT_HDR}) 
     get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
