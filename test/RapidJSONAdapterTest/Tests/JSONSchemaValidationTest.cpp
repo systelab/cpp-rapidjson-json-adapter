@@ -81,4 +81,163 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_TRUE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
 	}
 
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithAdditionalProperties)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": \"ABCDE\"," << std::endl;
+		ss << "    \"boolField\": true," << std::endl;
+		ss << "    \"additionalProp\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithMissingRequiredProperty)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithIntegerPropertyWithWrongTypeValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": false," << std::endl;
+		ss << "    \"strField\": \"ABCDE\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithIntegerPropertyWithTooLowValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": -1," << std::endl;
+		ss << "    \"strField\": \"ABCDE\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithNumberPropertyWithWrongTypeValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 1," << std::endl;
+		ss << "    \"numField\": false," << std::endl;
+		ss << "    \"strField\": \"ABCDE\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithNumberPropertyWithTooHighValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 1," << std::endl;
+		ss << "    \"numField\": 999," << std::endl;
+		ss << "    \"strField\": \"ABCDE\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithStringPropertyWithWrongTypeValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": 10," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithStringPropertyWithTooShortValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": \"AB\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithStringPropertyWithTooLongValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": \"ABCDEFGHIJKLMNOPRSTUVWXYZ\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithStringPropertyWithWrongPatternValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": \"ABCDeFG\"," << std::endl;
+		ss << "    \"boolField\": true" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithEnumPropertyWithWrongValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": \"ABCDEFG\"," << std::endl;
+		ss << "    \"boolField\": true," << std::endl;
+		ss << "    \"enumField\": \"option3\"" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
+	TEST_F(JSONSchemaValidationTest, testSimpleTypesSchemaValidationReturnsFalseForJSONWithBooleanPropertyWithWrongTypeValue)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"intField\": 10," << std::endl;
+		ss << "    \"strField\": \"ABCDEFG\"," << std::endl;
+		ss << "    \"boolField\": 123" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(test_utility::validateJSONSchema(document, getSimpleTypesSchemaDocument(), *m_jsonAdapter));
+	}
+
 }}}}
