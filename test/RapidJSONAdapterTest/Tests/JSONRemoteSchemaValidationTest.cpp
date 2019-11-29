@@ -5,6 +5,7 @@
 #include "RapidJSONAdapter/JSONValue.h"
 
 #include "JSONAdapterTestUtilities/JSONAdapterUtilities.h"
+#include "JSONAdapterTestUtilities/Mocks/MockJSONDocument.h"
 #include "JSONAdapterTestUtilities/Mocks/MockJSONRemoteSchemaProvider.h"
 
 
@@ -244,9 +245,9 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ON_CALL(m_jsonRemoteSchemaProvider, getRemoteSchemaDocumentProxy(_)).WillByDefault(Invoke(
 			[this](const std::string& uri) -> IJSONDocument*
 			{
-				auto document = std::make_unique<::rapidjson::Document>();
-				document->Parse("Not a JSON");
-				return std::make_unique<JSONDocument>(std::move(document)).release();
+				auto document = new MockJSONDocument();
+				ON_CALL(*document, serialize()).WillByDefault(Return("Not a JSON"));
+				return document;
 			}
 		));
 
