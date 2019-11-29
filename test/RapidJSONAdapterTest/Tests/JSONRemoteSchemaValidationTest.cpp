@@ -223,4 +223,41 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_FALSE(validateJSONSchema(document, getUserSchemaDocument(), m_jsonRemoteSchemaProvider, m_jsonAdapter));
 	}
 
+
+	// Remote schema errors
+	TEST_F(JSONRemoteSchemaValidationTest, testUserSchemaValidationReturnsTrueWhenAddressSchemaNotFound)
+	{
+		ON_CALL(m_jsonRemoteSchemaProvider, getRemoteSchemaDocumentProxy(_)).WillByDefault(ReturnNull());
+
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"name\": \"James\"," << std::endl;
+		ss << "    \"surname\": \"Bond\"" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_TRUE(validateJSONSchema(document, getUserSchemaDocument(), m_jsonRemoteSchemaProvider, m_jsonAdapter));
+	}
+
+	TEST_F(JSONRemoteSchemaValidationTest, testUserSchemaValidationReturnsTrueWhenAddressSchemaIsNotAJSON)
+	{
+		ON_CALL(m_jsonRemoteSchemaProvider, getRemoteSchemaDocumentProxy(_)).WillByDefault(Invoke(
+			[this](const std::string& uri) -> IJSONDocument*
+			{
+				auto document = std::make_unique<::rapidjson::Document>();
+				document->Parse("Not a JSON");
+				return std::make_unique<JSONDocument>(std::move(document)).release();
+			}
+		));
+
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"name\": \"James\"," << std::endl;
+		ss << "    \"surname\": \"Bond\"" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_TRUE(validateJSONSchema(document, getUserSchemaDocument(), m_jsonRemoteSchemaProvider, m_jsonAdapter));
+	}
+
 }}}}
