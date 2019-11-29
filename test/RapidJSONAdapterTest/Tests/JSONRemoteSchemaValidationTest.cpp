@@ -206,4 +206,21 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_FALSE(validateJSONSchema(document, getUserSchemaDocument(), m_jsonRemoteSchemaProvider, m_jsonAdapter));
 	}
 
+	TEST_F(JSONRemoteSchemaValidationTest, testUserSchemaValidationReturnsFalseForJSONWithWrongTypeOnAddress)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"name\": \"James\"," << std::endl;
+		ss << "    \"surname\": \"Bond\"," << std::endl;
+		ss << "    \"address\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"city\": 123," << std::endl;
+		ss << "        \"street\": \"Trafalgar Square\"" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_FALSE(validateJSONSchema(document, getUserSchemaDocument(), m_jsonRemoteSchemaProvider, m_jsonAdapter));
+	}
+
 }}}}
