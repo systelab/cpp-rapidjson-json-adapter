@@ -46,18 +46,25 @@ namespace systelab { namespace json { namespace rapidjson {
 
 	std::unique_ptr<::rapidjson::Value> JSONDocument::removeFreeValue(const ::rapidjson::Value& value)
 	{
-		for (auto it = m_freeValues.begin(); it != m_freeValues.end(); it++)
+		std::unique_ptr<::rapidjson::Value> freeValueFound;
+
+		auto it = m_freeValues.begin();
+		while (!freeValueFound && (it != m_freeValues.end()))
 		{
 			if (it->get() == &value)
 			{
 				std::unique_ptr<::rapidjson::Value> foundValue;
 				foundValue.swap(*it);
 				m_freeValues.erase(it);
-				return std::move(foundValue);
+				freeValueFound = std::move(foundValue);
+			}
+			else
+			{
+				it++;
 			}
 		}
 
-		return std::unique_ptr<::rapidjson::Value>();
+		return freeValueFound;
 	}
 
 }}}
