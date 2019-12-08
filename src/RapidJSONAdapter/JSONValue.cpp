@@ -255,7 +255,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		::rapidjson::Value memberName(name, m_allocator);
 		m_value.AddMember(memberName, *freeValue, m_allocator);
 
-		std::unique_ptr<IJSONMember> member = std::make_unique<JSONMember>(m_document, name, m_value[name], m_allocator);
+		std::unique_ptr<JSONMember> member = std::make_unique<JSONMember>(m_document, name, m_value[name], m_allocator);
 		m_objectMembers.insert(std::make_pair(name, std::move(member)));
 	}
 
@@ -328,7 +328,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		for (auto itr = m_value.MemberBegin(); itr != m_value.MemberEnd(); ++itr)
 		{
 			std::string memberName = itr->name.GetString();
-			std::unique_ptr<IJSONMember> member = std::make_unique<JSONMember>(m_document, memberName, itr->value, m_allocator);
+			std::unique_ptr<JSONMember> member = std::make_unique<JSONMember>(m_document, memberName, itr->value, m_allocator);
 			m_objectMembers.insert(std::make_pair(memberName, std::move(member)));
 		}
 

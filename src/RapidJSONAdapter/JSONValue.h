@@ -13,6 +13,7 @@
 namespace systelab { namespace json { namespace rapidjson {
 
 	class JSONDocument;
+	class JSONMember;
 
 	class JSONValue : public IJSONValue
 	{
@@ -84,7 +85,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		::rapidjson::Value::AllocatorType& m_allocator;
 
 		mutable bool m_objectMembersLoaded;
-		mutable std::map< std::string, std::unique_ptr<IJSONMember> > m_objectMembers;
+		mutable std::map< std::string, std::unique_ptr<JSONMember> > m_objectMembers;
 
 		mutable bool m_arrayValuesLoaded;
 		mutable std::vector< std::unique_ptr<IJSONValue> > m_arrayValues;

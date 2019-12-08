@@ -16,11 +16,6 @@ namespace systelab { namespace json { namespace rapidjson {
 
 	JSONMember::~JSONMember() = default;
 
-	std::string JSONMember::getName() const
-	{
-		return m_name;
-	}
-
 	IJSONValue& JSONMember::getValue() const
 	{
 		return *m_value;
