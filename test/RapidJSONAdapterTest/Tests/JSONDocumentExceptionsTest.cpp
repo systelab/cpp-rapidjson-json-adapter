@@ -13,7 +13,7 @@ using namespace systelab::json::test_utility;
 
 namespace systelab { namespace json { namespace rapidjson { namespace unit_test {
 
-	class JSONDocumentErrorsTest : public testing::Test
+	class JSONDocumentExceptionsTest : public testing::Test
 	{
 	public:
 		void SetUp()
@@ -27,7 +27,7 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 
 
 	// addMember
-	TEST_F(JSONDocumentErrorsTest, testAddMemberThrowsExceptionWhenGivenValueNotARapidJSONValue)
+	TEST_F(JSONDocumentExceptionsTest, testAddMemberThrowsExceptionWhenGivenValueNotARapidJSONValue)
 	{
 		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
 		systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
@@ -37,21 +37,21 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_THROW(jsonRootValue.addMember("attError", std::move(mockJSONValue)), std::runtime_error);
 	}
 
-	TEST_F(JSONDocumentErrorsTest, testAddMemberThrowsExceptionWhenGivenValueBelongsToAnotherDocument)
+	TEST_F(JSONDocumentExceptionsTest, testAddMemberThrowsExceptionWhenGivenValueBelongsToAnotherDocument)
 	{
 		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
 		systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
 		jsonRootValue.setType(systelab::json::OBJECT_TYPE);
 
 		auto otherJSONDocument = m_jsonAdapter->buildEmptyDocument();
-		systelab::json::IJSONValue& otherJSONRootValue = jsonDocument->getRootValue();
+		systelab::json::IJSONValue& otherJSONRootValue = otherJSONDocument->getRootValue();
 		auto otherJSONValue = otherJSONRootValue.buildValue(systelab::json::STRING_TYPE);
 		ASSERT_THROW(jsonRootValue.addMember("attError", std::move(otherJSONValue)), std::runtime_error);
 	}
 
 
 	// addArrayValue
-	TEST_F(JSONDocumentErrorsTest, testAddArrayValueThrowsExceptionWhenGivenValueNotARapidJSONValue)
+	TEST_F(JSONDocumentExceptionsTest, testAddArrayValueThrowsExceptionWhenGivenValueNotARapidJSONValue)
 	{
 		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
 		systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
@@ -61,14 +61,14 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_THROW(jsonRootValue.addArrayValue(std::move(mockJSONValue)), std::runtime_error);
 	}
 
-	TEST_F(JSONDocumentErrorsTest, testAddArrayValueThrowsExceptionWhenGivenValueBelongsToAnotherDocument)
+	TEST_F(JSONDocumentExceptionsTest, testAddArrayValueThrowsExceptionWhenGivenValueBelongsToAnotherDocument)
 	{
 		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
 		systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
 		jsonRootValue.setType(systelab::json::ARRAY_TYPE);
 
 		auto otherJSONDocument = m_jsonAdapter->buildEmptyDocument();
-		systelab::json::IJSONValue& otherJSONRootValue = jsonDocument->getRootValue();
+		systelab::json::IJSONValue& otherJSONRootValue = otherJSONDocument->getRootValue();
 		auto otherJSONValue = otherJSONRootValue.buildValue(systelab::json::STRING_TYPE);
 		ASSERT_THROW(jsonRootValue.addArrayValue(std::move(otherJSONValue)), std::runtime_error);
 	}
