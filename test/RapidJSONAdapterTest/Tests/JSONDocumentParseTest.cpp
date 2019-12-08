@@ -239,6 +239,12 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_EQ(1, jsonObjectValue.getObjectMemberCount());
 		ASSERT_THAT(jsonObjectValue.getObjectMemberNames(), UnorderedElementsAreArray({"attNull"}));
 		ASSERT_EQ(systelab::json::NULL_TYPE, jsonObjectValue.getObjectMemberValue("attNull").getType());
+
+		jsonArrayValue.clearArray();
+		ASSERT_EQ(0, jsonArrayValue.getArrayValueCount());
+
+		jsonRootValue.removeMember("attString");
+		ASSERT_THROW(jsonRootValue.getObjectMemberValue("attString"), std::runtime_error);
 	}
 
 }}}}
