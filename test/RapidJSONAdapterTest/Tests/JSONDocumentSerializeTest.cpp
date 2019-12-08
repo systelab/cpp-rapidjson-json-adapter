@@ -120,6 +120,17 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_TRUE(compareJSONs("{ \"attNull\": null }", jsonDocument->serialize(), *m_jsonAdapter));
 	}
 
+	TEST_F(JSONDocumentSerializeTest, testSerializeSingleNulledAttributeObjectJSON)
+	{
+		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
+		systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
+		jsonRootValue.setType(systelab::json::OBJECT_TYPE);
+		jsonRootValue.addMember("attNulled", "oldValue");
+		jsonRootValue.getObjectMemberValue("attNulled").setNull();
+
+		ASSERT_TRUE(compareJSONs("{ \"attNulled\": null }", jsonDocument->serialize(), *m_jsonAdapter));
+	}
+
 	TEST_F(JSONDocumentSerializeTest, testSerializeSingleEmptyObjectAttributeObjectJSON)
 	{
 		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
