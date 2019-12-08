@@ -133,6 +133,7 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 
 		systelab::json::IJSONValue& jsonNullValue = jsonRootValue.getObjectMemberValue("attNull");
 		ASSERT_EQ(systelab::json::NULL_TYPE, jsonNullValue.getType());
+		ASSERT_TRUE(jsonNullValue.isNull());
 	}
 
 	TEST_F(JSONDocumentParseTest, testBuildDocumentFromSingleEmptyObjectAttributeObjectJSON)
