@@ -1,5 +1,6 @@
 from conans import ConanFile, CMake, tools
 
+
 class RapidJSONAdapterConan(ConanFile):
     name = "RapidJSONAdapter"
     description = "C++ JSON adapter based on rapidjson"
@@ -10,23 +11,25 @@ class RapidJSONAdapterConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"gtest": ["1.7.0", "1.8.1"]}
-    default_options = "gtest=1.8.1"
+    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"]}
+    default_options = "gtest=1.10.0"
     exports_sources = "*"
 
     def configure(self):
         self.options["JSONAdapterTestUtilities"].gtest = self.options.gtest
 
     def requirements(self):
-        self.requires("JSONAdapterInterface/1.0.8@systelab/stable")
+        self.requires("JSONAdapterInterface/1.0.9@systelab/stable")
         self.requires("rapidjson/1.1.0@bincrafters/stable")
 
     def build_requirements(self):
-        self.build_requires("JSONAdapterTestUtilities/1.0.8@systelab/stable")
+        self.build_requires("JSONAdapterTestUtilities/1.0.9@systelab/stable")
         if self.options.gtest == "1.7.0":
             self.build_requires("gtest/1.7.0@systelab/stable")
+        elif self.options.gtest == "1.8.1":
+            self.requires("gtest/1.8.1@bincrafters/stable")
         else:
-            self.build_requires("gtest/1.8.1@bincrafters/stable")
+            self.requires("gtest/1.10.0@systelab/stable")
 
     def build(self):
         cmake = CMake(self)
