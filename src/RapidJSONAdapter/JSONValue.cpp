@@ -318,6 +318,13 @@ namespace systelab { namespace json { namespace rapidjson {
 		return newValue;
 	}
 
+	std::unique_ptr<IJSONDocument> JSONValue::buildDocument() const
+	{
+		auto newDocument = std::unique_ptr<::rapidjson::Document>();
+		newDocument->CopyFrom(m_value, newDocument->GetAllocator()));
+		return std::make_unique<JSONDocument>(newDocument);
+	}
+
 	void JSONValue::loadObjectMembers() const
 	{
 		if (m_objectMembersLoaded)
