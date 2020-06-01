@@ -5,14 +5,20 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Find external dependencides
 find_package(JSONAdapterTestUtilities)
-find_package(gtest)
+
+set(GTEST_PACKAGE_NAME gtest)
+find_package(${GTEST_PACKAGE_NAME})
+if (NOT TARGET ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
+    set(GTEST_PACKAGE_NAME GTest)
+    find_package(${GTEST_PACKAGE_NAME})
+endif()
 
 # Configure test project
 set(RAPIDJSON_ADAPTER_TEST_PROJECT RapidJSONAdapterTest)
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_SRC "*.cpp")
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_HDR "*.h")
 add_executable(${RAPIDJSON_ADAPTER_TEST_PROJECT} ${RAPIDJSON_ADAPTER_TEST_PROJECT_SRC} ${RAPIDJSON_ADAPTER_TEST_PROJECT_HDR})
-target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} RapidJSONAdapter JSONAdapterTestUtilities::JSONAdapterTestUtilities gtest::gtest)
+target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} RapidJSONAdapter JSONAdapterTestUtilities::JSONAdapterTestUtilities ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
 
 # Ignored missing PDBs link warning on Visual Studio
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
