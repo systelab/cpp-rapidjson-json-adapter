@@ -17,7 +17,7 @@ namespace systelab { namespace json { namespace rapidjson {
 	const ::rapidjson::SchemaDocument*
 	JSONSchemaValidator::RapidjsonSchemaRemoteDocumentProvider::GetRemoteDocument(const char* uri, ::rapidjson::SizeType length)
 	{
-		std::string uriStr(uri, length + 1);
+		std::string uriStr(uri, length);
 		std::unique_ptr<::rapidjson::SchemaDocument> schemaDocument = buildSchemaDocument(uriStr);
 		return schemaDocument.release();
 	}
@@ -38,7 +38,7 @@ namespace systelab { namespace json { namespace rapidjson {
 			return std::unique_ptr<::rapidjson::SchemaDocument>();
 		}
 
-		return std::make_unique<::rapidjson::SchemaDocument>(jsonDocument, this);
+		return std::make_unique<::rapidjson::SchemaDocument>(jsonDocument, "", 0, this);
 	}
 
 
@@ -59,7 +59,7 @@ namespace systelab { namespace json { namespace rapidjson {
 		::rapidjson::Document jsonDocument;
 		jsonDocument.Parse(document.serialize());
 
-		m_schemaDocument = std::make_unique<::rapidjson::SchemaDocument>(jsonDocument, m_rapidjsonRemoteSchemaProvider.get());
+		m_schemaDocument = std::make_unique<::rapidjson::SchemaDocument>(jsonDocument, "", 0, m_rapidjsonRemoteSchemaProvider.get());
 	}
 
 	JSONSchemaValidator::~JSONSchemaValidator() = default;
