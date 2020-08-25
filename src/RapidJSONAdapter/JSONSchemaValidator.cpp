@@ -11,6 +11,7 @@ namespace systelab { namespace json { namespace rapidjson {
 
 	JSONSchemaValidator::RapidjsonSchemaRemoteDocumentProvider::RapidjsonSchemaRemoteDocumentProvider(const IJSONRemoteSchemaProvider& remoteSchemaProvider)
 		:m_remoteSchemaProvider(remoteSchemaProvider)
+		,m_remoteSchemaMap()
 	{
 	}
 
@@ -18,8 +19,18 @@ namespace systelab { namespace json { namespace rapidjson {
 	JSONSchemaValidator::RapidjsonSchemaRemoteDocumentProvider::GetRemoteDocument(const char* uri, ::rapidjson::SizeType length)
 	{
 		std::string uriStr(uri, length);
-		std::unique_ptr<::rapidjson::SchemaDocument> schemaDocument = buildSchemaDocument(uriStr);
-		return schemaDocument.release();
+		const auto itr = m_remoteSchemaMap.find(uriStr);
+		if (itr != m_remoteSchemaMap.end())
+		{
+			return itr->second.get();
+		}
+		else
+		{
+			std::unique_ptr<::rapidjson::SchemaDocument> schemaDocument = buildSchemaDocument(uriStr);
+			auto schemaDocumentPtr = schemaDocument.get();
+			m_remoteSchemaMap.insert(std::make_pair(uriStr, std::move(schemaDocument)));
+			return schemaDocumentPtr;
+		}
 	}
 
 	std::unique_ptr<::rapidjson::SchemaDocument>

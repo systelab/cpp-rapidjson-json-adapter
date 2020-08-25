@@ -2,6 +2,7 @@
 
 #include "JSONAdapterInterface/IJSONSchemaValidator.h"
 
+#include <map>
 #include <memory>
 #include <rapidjson/schema.h>
 
@@ -24,6 +25,7 @@ namespace systelab { namespace json { namespace rapidjson {
 
 		private:
 			const IJSONRemoteSchemaProvider& m_remoteSchemaProvider;
+			std::map<std::string, std::unique_ptr<::rapidjson::SchemaDocument> > m_remoteSchemaMap;
 
 			std::unique_ptr<::rapidjson::SchemaDocument> buildSchemaDocument(const std::string& uri);
 		};
