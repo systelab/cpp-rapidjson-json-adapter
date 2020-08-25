@@ -45,6 +45,10 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 			ss << "        \"address\":" << std::endl;
 			ss << "        {" << std::endl;
 			ss << "            \"$ref\": \"JSON_SCHEMA_MODEL_ADDRESS#/definitions/address\"" << std::endl;
+			ss << "        }," << std::endl;
+			ss << "        \"address2\":" << std::endl;
+			ss << "        {" << std::endl;
+			ss << "            \"$ref\": \"JSON_SCHEMA_MODEL_ADDRESS#/definitions/address\"" << std::endl;
 			ss << "        }" << std::endl;
 			ss << "    }," << std::endl;
 			ss << "    \"required\": [\"name\", \"surname\"]," << std::endl;
@@ -128,6 +132,30 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ss << "        \"city\": \"London\"," << std::endl;
 		ss << "        \"street\": \"Trafalgar Square\"," << std::endl;
 		ss << "        \"zip\": 700" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}" << std::endl;
+		std::string document = ss.str();
+
+		ASSERT_TRUE(validateJSONSchema(document, getUserSchemaDocument(), m_jsonRemoteSchemaProvider, m_jsonAdapter));
+	}
+
+	TEST_F(JSONRemoteSchemaValidationTest, testUserSchemaValidationReturnsTrueForJSONWithCompleteAddresses)
+	{
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"name\": \"James\"," << std::endl;
+		ss << "    \"surname\": \"Bond\"," << std::endl;
+		ss << "    \"address\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"city\": \"London\"," << std::endl;
+		ss << "        \"street\": \"Trafalgar Square\"," << std::endl;
+		ss << "        \"zip\": 700" << std::endl;
+		ss << "    }," << std::endl;
+		ss << "    \"address2\":" << std::endl;
+		ss << "    {" << std::endl;
+		ss << "        \"city\": \"Barcelona\"," << std::endl;
+		ss << "        \"street\": \"Pl. Catalunya, s/n\"," << std::endl;
+		ss << "        \"zip\": 8080" << std::endl;
 		ss << "    }" << std::endl;
 		ss << "}" << std::endl;
 		std::string document = ss.str();
