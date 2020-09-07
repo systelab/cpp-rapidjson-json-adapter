@@ -216,4 +216,55 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_TRUE(compareJSONs(expectedJSON, jsonDocument->serialize(), *m_jsonAdapter));
 	}
 
+	TEST_F(JSONDocumentSerializeTest, testPrettySerializeComplexJSON)
+	{
+		auto jsonDocument = m_jsonAdapter->buildEmptyDocument();
+		systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
+		jsonRootValue.setType(systelab::json::OBJECT_TYPE);
+		jsonRootValue.addMember("attInt", 1234);
+		jsonRootValue.addMember("attDouble", 2.345);
+		jsonRootValue.addMember("attTrue", true);
+		jsonRootValue.addMember("attFalse", false);
+		jsonRootValue.addMember("attString", "ABC XYZ");
+
+		auto jsonArrayValue = jsonRootValue.buildValue(systelab::json::ARRAY_TYPE);
+
+		std::vector<std::string> arrayValues = { "A", "B", "C" };
+		for (std::string arrayValue : arrayValues)
+		{
+			auto jsonArrayItem = jsonArrayValue->buildValue(systelab::json::STRING_TYPE);
+			jsonArrayItem->setString(arrayValue);
+			jsonArrayValue->addArrayValue(std::move(jsonArrayItem));
+		}
+
+		jsonRootValue.addMember("attArray", std::move(jsonArrayValue));
+
+		auto jsonObjectValue = jsonRootValue.buildValue(systelab::json::OBJECT_TYPE);
+		jsonObjectValue->addMember("attNull", jsonObjectValue->buildValue(systelab::json::NULL_TYPE));
+		jsonRootValue.addMember("attObject", std::move(jsonObjectValue));
+
+		std::stringstream ss;
+		ss << "{" << std::endl;
+		ss << "    \"attInt\": 1234," << std::endl;
+		ss << "    \"attDouble\": 2.345," << std::endl;
+		ss << "    \"attTrue\": true," << std::endl;
+		ss << "    \"attFalse\": false," << std::endl;
+		ss << "    \"attString\": \"ABC XYZ\"," << std::endl;
+		ss << "    \"attArray\": [" << std::endl;
+		ss << "        \"A\"," << std::endl;
+		ss << "        \"B\"," << std::endl;
+		ss << "        \"C\"" << std::endl;
+		ss << "    ]," << std::endl;
+		ss << "    \"attObject\": {" << std::endl;
+		ss << "        \"attNull\": null" << std::endl;
+		ss << "    }" << std::endl;
+		ss << "}";
+		std::string expectedJSON = ss.str();
+
+		bool pretty = true;
+		std::string prettySerializedJSON = jsonDocument->serialize(pretty);
+
+		ASSERT_EQ(expectedJSON, prettySerializedJSON);
+	}
+
 }}}}
