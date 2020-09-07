@@ -16,10 +16,10 @@ namespace systelab { namespace json { namespace rapidjson {
 		JSONDocument(std::unique_ptr<::rapidjson::Document>);
 		virtual ~JSONDocument();
 
-		IJSONValue& getRootValue();
-		const IJSONValue& getRootValue() const;
+		IJSONValue& getRootValue() override;
+		const IJSONValue& getRootValue() const override;
 
-		std::string serialize() const;
+		std::string serialize(bool pretty) const override;
 
 	public:
 		void addFreeValue(std::unique_ptr<::rapidjson::Value>);

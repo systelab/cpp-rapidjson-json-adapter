@@ -2,8 +2,9 @@
 
 #include "JSONValue.h"
 
-#include <rapidjson/writer.h>
+#include <rapidjson/prettywriter.h>
 #include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 
 
 namespace systelab { namespace json { namespace rapidjson {
@@ -27,14 +28,26 @@ namespace systelab { namespace json { namespace rapidjson {
 		return *m_rootValue;
 	}
 
-	std::string JSONDocument::serialize() const
+	std::string JSONDocument::serialize(bool pretty) const
 	{
 		::rapidjson::StringBuffer jsonBuffer;
 		jsonBuffer.Clear();
-		::rapidjson::Writer<::rapidjson::StringBuffer> jsonWriter(jsonBuffer);
-		jsonWriter.SetMaxDecimalPlaces(6);
-		m_document->Accept(jsonWriter);
-		std::string serializedDocument = jsonBuffer.GetString();
+
+		std::string serializedDocument;
+		if (pretty)
+		{
+			::rapidjson::PrettyWriter<::rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+			jsonWriter.SetMaxDecimalPlaces(6);
+			m_document->Accept(jsonWriter);
+			serializedDocument = jsonBuffer.GetString();
+		}
+		else
+		{
+			::rapidjson::Writer<::rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+			jsonWriter.SetMaxDecimalPlaces(6);
+			m_document->Accept(jsonWriter);
+			serializedDocument = jsonBuffer.GetString();
+		}
 
 		return serializedDocument;
 	}
