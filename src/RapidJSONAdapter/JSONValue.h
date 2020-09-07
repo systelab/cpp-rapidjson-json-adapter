@@ -70,8 +70,8 @@ namespace systelab { namespace json { namespace rapidjson {
 		void clearArray() override;
 
 		// JSON pointer
-		IJSONValue* getJSONPointerValue(const std::string& jsonPointer);
-		const IJSONValue* getJSONPointerValue(const std::string& jsonPointer) const;
+		IJSONValue* getJSONPointerValue(const std::string& jsonPointer) override;
+		const IJSONValue* getJSONPointerValue(const std::string& jsonPointer) const override;
 
 		// Factory of values
 		std::unique_ptr<IJSONValue> buildValue(Type) const override;
