@@ -274,7 +274,7 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 			[this](const std::string& uri) -> IJSONDocument*
 			{
 				auto document = new MockJSONDocument();
-				ON_CALL(*document, serialize()).WillByDefault(Return("Not a JSON"));
+				ON_CALL(*document, serialize(_)).WillByDefault(Return("Not a JSON"));
 				return document;
 			}
 		));
