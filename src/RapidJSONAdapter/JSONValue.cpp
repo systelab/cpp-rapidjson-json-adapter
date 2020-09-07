@@ -394,7 +394,10 @@ namespace systelab { namespace json { namespace rapidjson {
 			if (firstFragment.find_first_not_of("0123456789") == std::string::npos)
 			{
 				unsigned int itemIndex = std::atoi(firstFragment.c_str());
-				return getArrayValue(itemIndex).getJSONPointerValue(nextFragments);
+				if (itemIndex < getArrayValueCount())
+				{
+					return getArrayValue(itemIndex).getJSONPointerValue(nextFragments);
+				}
 			}
 		}
 
