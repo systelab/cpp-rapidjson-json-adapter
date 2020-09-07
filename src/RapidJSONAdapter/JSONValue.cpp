@@ -377,8 +377,9 @@ namespace systelab { namespace json { namespace rapidjson {
 			return this;
 		}
 
-		std::string firstFragment = jsonPointer.substr(0, jsonPointer.find("/"));
-		std::string nextFragments = jsonPointer.substr(jsonPointer.find("/"));
+		const auto slashItr = jsonPointer.find("/");
+		std::string firstFragment = jsonPointer.substr(0, slashItr);
+		std::string nextFragments = (slashItr != std::string::npos) ? jsonPointer.substr(slashItr + 1) : "";
 
 		systelab::json::Type type = getType();
 		if (type == OBJECT_TYPE)
