@@ -370,4 +370,40 @@ namespace systelab { namespace json { namespace rapidjson {
 		m_arrayValues.clear();
 	}
 
+	IJSONValue* JSONValue::getJSONPointerValue(const std::string& jsonPointer)
+	{
+		if (jsonPointer.empty())
+		{
+			return this;
+		}
+
+		std::string firstFragment = jsonPointer.substr(0, jsonPointer.find("/"));
+		std::string nextFragments = jsonPointer.substr(jsonPointer.find("/"));
+
+		systelab::json::Type type = getType();
+		if (type == OBJECT_TYPE)
+		{
+			if (hasObjectMember(firstFragment))
+			{
+				return getObjectMemberValue(firstFragment).getJSONPointerValue(nextFragments);
+			}
+		}
+		else if (type == ARRAY_TYPE)
+		{
+			if (firstFragment.find_first_not_of("0123456789") == std::string::npos)
+			{
+				unsigned int itemIndex = std::atoi(firstFragment.c_str());
+				return getArrayValue(itemIndex).getJSONPointerValue(nextFragments);
+			}
+		}
+
+		return nullptr;
+	}
+
+	const IJSONValue* JSONValue::getJSONPointerValue(const std::string& jsonPointer) const
+	{
+		auto currentJSONValue = const_cast<IJSONValue*>(static_cast<const IJSONValue*>(this));
+		return currentJSONValue->getJSONPointerValue(jsonPointer);
+	}
+
 }}}
