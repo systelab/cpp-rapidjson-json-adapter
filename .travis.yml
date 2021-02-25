@@ -127,7 +127,7 @@ deploy:
       tags: true
       condition: "$BUILD_TYPE != Coverage"
   - provider: script
-    script: bash ./ci/build_docs.sh -o "systelab" -s "cpp-rapidjon-json-adapter" -t "${TRAVIS_TAG}" -c "Travis" -n "${COMPILER_NAME} ${BUILD_TYPE}" -j "${TRAVIS_JOB_ID}" -p "RapidJSONAdapterTest"
+    script: bash ./ci/build_docs.sh -o "systelab" -s "cpp-rapidjson-json-adapter" -t "${TRAVIS_TAG}" -c "Travis" -n "${COMPILER_NAME} ${BUILD_TYPE}" -j "${TRAVIS_JOB_ID}" -p "RapidJSONAdapterTest"
     skip_cleanup: true
     on:
       tags: true
