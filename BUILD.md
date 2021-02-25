@@ -23,7 +23,7 @@ In order to build the application on Windows for the `Release` configuration, ru
 ``` bash
 > git clone https://github.com/systelab/cpp-rapidjson-json-adapter
 > md build && cd build
-> conan remote add systelab-bintray https://api.bintray.com/conan/systelab/conan
+> conan remote add systelab-public https://systelab.jfrog.io/artifactory/api/conan/cpp-conan-production-local
 > conan install .. -s build_type=Release -s compiler.toolset=v142 -s arch=x86_64
 > cmake .. -G "Visual Studio 16 2019" -A x64
 > "$VSINSTALLPATH/devenv.com" RapidJSONAdapter.sln /build "Release" /PROJECT "RapidJSONAdapter"
@@ -34,7 +34,7 @@ However, if you want to `Debug` the source code, you will need these commands:
 ``` bash
 > git clone https://github.com/systelab/cpp-rapidjson-json-adapter
 > md build && cd build
-> conan remote add systelab-bintray https://api.bintray.com/conan/systelab/conan
+> conan remote add systelab-public https://systelab.jfrog.io/artifactory/api/conan/cpp-conan-production-local
 > conan install .. -s build_type=Debug -s compiler.toolset=v142 -s arch=x86_64
 > cmake .. -G "Visual Studio 16 2019" -A x64
 > "$VSINSTALLPATH/devenv.com" RapidJSONAdapter.sln /build "Debug" /PROJECT "RapidJSONAdapter"
@@ -45,7 +45,7 @@ However, if you want to `Debug` the source code, you will need these commands:
 ``` bash
 > git clone https://github.com/systelab/cpp-rapidjson-json-adapter
 > mkdir build && cd build
-> conan remote add systelab-bintray https://api.bintray.com/conan/systelab/conan
+> conan remote add systelab-public https://systelab.jfrog.io/artifactory/api/conan/cpp-conan-production-local
 > conan install ..
 > cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
 > make
