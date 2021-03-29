@@ -29,7 +29,7 @@ class RapidJSONAdapterConan(ConanFile):
         elif self.options.gtest == "1.8.1":
             self.build_requires("gtest/1.8.1")
         else:
-            self.build_requires("gtest/1.10.0")
+            self.build_requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
 
     def build(self):
         cmake = CMake(self)
