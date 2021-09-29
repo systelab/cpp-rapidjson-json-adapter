@@ -1,5 +1,12 @@
 # Summary of changes
 
+## Changes for version 1.1.5 (29 Sep 2021)
+
+### Bug Fixes
+
+- Executed existing unit tests as part of Jenkins continuous integration
+
+
 ## Changes for version 1.1.4 (29 Sep 2021)
 
 ### Bug Fixes
