@@ -63,10 +63,7 @@ pipeline
 								sh "conan export-pkg ../conanfile.py RapidJSONAdapter/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} --force"
 								sh "conan test ../test_package/conanfile.py RapidJSONAdapter/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion}"
 								
-								dir("bin/${props.conanBuildType}")
-								{
-									sh "RapidJSONAdapterTest.exe --gtest_output=xml:../../RapidJSONAdapterTest.xml"
-								}
+								sh "bin/${props.conanBuildType}/RapidJSONAdapterTest.exe --gtest_output=xml:RapidJSONAdapterTest.xml"
 							}
 						}
 					}
