@@ -89,13 +89,13 @@ pipeline
 				}
 			}
 		}
-		
-		post
+	}
+	
+	post
+	{
+		always
 		{
-			always
-			{
-				junit allowEmptyResults: true, testResults: "build*/RapidJSONAdapterTest.xml"
-			}
+			junit allowEmptyResults: true, testResults: "build*/RapidJSONAdapterTest.xml"
 		}
 	}
 }
