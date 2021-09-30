@@ -1,5 +1,12 @@
 # Summary of changes
 
+## Changes for version 1.1.6 (29 Sep 2021)
+
+### Bug Fixes
+
+- Moved JSONAdapterInterface dependency to version 1.1.5
+
+
 ## Changes for version 1.1.5 (29 Sep 2021)
 
 ### Bug Fixes
