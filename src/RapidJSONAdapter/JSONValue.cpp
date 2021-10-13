@@ -278,7 +278,35 @@ namespace systelab { namespace json { namespace rapidjson {
 
 		return *m_arrayValues[index];
 	}
+	
+	IJSONValue::ArrayIterator JSONValue::begin()
+	{
+		loadArrayValues();
 
+		return m_arrayValues.begin();
+	}
+	
+	IJSONValue::ArrayIterator JSONValue::end()
+	{
+		loadArrayValues();
+
+		return m_arrayValues.end();
+	}
+	
+	IJSONValue::ArrayConstIterator JSONValue::begin() const
+	{
+		loadArrayValues();
+
+ 		return m_arrayValues.cbegin();
+	}
+	
+	IJSONValue::ArrayConstIterator JSONValue::end() const
+	{
+		loadArrayValues();
+
+		return m_arrayValues.cend();
+	}
+	
 	void JSONValue::addArrayValue(std::unique_ptr<IJSONValue> valueToAdd)
 	{
 		JSONValue* adapterValueToAdd = dynamic_cast<JSONValue*>(valueToAdd.get());
