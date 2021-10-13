@@ -65,6 +65,11 @@ namespace systelab { namespace json { namespace rapidjson {
 		// Only for array values
 		unsigned int getArrayValueCount() const override;
 		IJSONValue& getArrayValue(unsigned int) const override;
+		
+		ArrayIterator begin() override;
+		ArrayIterator end() override;
+		ArrayConstIterator begin() const override;
+		ArrayConstIterator end() const override;
 
 		void addArrayValue(std::unique_ptr<IJSONValue>) override;
 		void clearArray() override;

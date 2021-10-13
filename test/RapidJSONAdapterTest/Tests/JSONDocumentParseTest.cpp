@@ -189,6 +189,96 @@ namespace systelab { namespace json { namespace rapidjson { namespace unit_test 
 		ASSERT_EQ(7, jsonArrayValue.getArrayValue(2).getInteger());
 	}
 
+	TEST_F(JSONDocumentParseTest, testBuildDocumentFromRangeLoopIterableArrayAttributeObjectJSON)
+	{
+		auto jsonDocument = m_jsonAdapter->buildDocumentFromString("{ \"attArray\": [9, 8, 7] }");
+		ASSERT_TRUE(jsonDocument != NULL);
+
+		const systelab::json::IJSONValue& jsonRootValue = jsonDocument->getRootValue();
+		ASSERT_EQ(systelab::json::OBJECT_TYPE, jsonRootValue.getType());
+		ASSERT_EQ(1u, jsonRootValue.getObjectMemberCount());
+		ASSERT_THAT(jsonRootValue.getObjectMemberNames(), ElementsAreArray({ "attArray" }));
+
+		systelab::json::IJSONValue& jsonArrayValue = jsonRootValue.getObjectMemberValue("attArray");
+		ASSERT_EQ(systelab::json::ARRAY_TYPE, jsonArrayValue.getType());
+		
+		int nIteration = 0;
+
+		// range-loop on non-const array, using auto specifier with '&' modifier, lets iterate non-const references
+		nIteration = 0;
+		for (auto& jsonValue : jsonArrayValue)
+		{
+			bool bIsRef = std::is_same<decltype(jsonValue), systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+
+		// range-loop on non-const array, using auto specifier with 'const' and '&' modifiers, lets iterate const references
+		nIteration = 0;
+		for (const auto& jsonValue : jsonArrayValue)
+		{
+			bool bIsConstRef = std::is_same<decltype(jsonValue), const systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsConstRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+
+		// range-loop on const array using auto specifier with '&' modifier
+		//   or
+		// range-loop on const array using auto specifier with 'const' and '&' modifiers
+		//   both
+		// let iterate const references
+		const systelab::json::IJSONValue& jsonArrayValueConst = jsonArrayValue;
+		nIteration = 0;
+		for (auto& jsonValue : jsonArrayValueConst)
+		{
+			bool bIsConstRef = std::is_same<decltype(jsonValue), const systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsConstRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+		nIteration = 0;
+		for (const auto& jsonValue : jsonArrayValueConst)
+		{
+			bool bIsConstRef = std::is_same<decltype(jsonValue), const systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsConstRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+
+		// range-loop on non-const array explicitly using non-const reference in the range-declaration
+		nIteration = 0;
+		for (systelab::json::IJSONValue& jsonValue : jsonArrayValue)
+		{
+			bool bIsRef = std::is_same<decltype(jsonValue), systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+
+		// range-loop on non-const array explicitly using const reference in the range-declaration
+		nIteration = 0;
+		for (const systelab::json::IJSONValue& jsonValue : jsonArrayValue)
+		{
+			bool bIsConstRef = std::is_same<decltype(jsonValue), const systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsConstRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+
+		// range-loop on const array explicitly using const reference in the range-declaration
+		ASSERT_EQ(3, nIteration);
+		nIteration = 0;
+		for (const systelab::json::IJSONValue& jsonValue : jsonArrayValueConst)
+		{
+			bool bIsConstRef = std::is_same<decltype(jsonValue), const systelab::json::IJSONValue&>::value;
+			ASSERT_TRUE(bIsConstRef);
+			ASSERT_EQ(9 - nIteration++, jsonValue.getInteger());
+		}
+		ASSERT_EQ(3, nIteration);
+	}
+
 	TEST_F(JSONDocumentParseTest, testBuildDocumentFromComplexJSON)
 	{
 		std::stringstream ss;
