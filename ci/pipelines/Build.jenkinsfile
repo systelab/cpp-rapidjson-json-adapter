@@ -74,13 +74,12 @@ pipeline
 		{
 			when
 			{
-				expression { return params.uploadTestingPkg }
+				expression { params.uploadTestingPkg }
 			}
 			steps
 			{
 				script
 				{
-					sh "conan remove RapidJSONAdapter/${version}@systelab/${channel} -r systelab-conan-local --force"
 					sh "conan upload RapidJSONAdapter/${version}@systelab/${channel} --all -r systelab-conan-local --force"
 				}
 			}
