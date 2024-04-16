@@ -18,6 +18,7 @@ class RapidJSONAdapterConan(ConanFile):
         self.requires("rapidjson/1.1.0.2@systelab/stable")
 
     def build_requirements(self):
+        self.build_requires("gtest/1.14.0@#4372c5aed2b4018ed9f9da3e218d18b3")
         self.build_requires("JSONAdapterTestUtilities/1.1.6@systelab/stable")
 
     def build(self):
