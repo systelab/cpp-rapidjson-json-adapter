@@ -119,7 +119,7 @@ pipeline
 			{
 				script
 				{
-					sh "conan upload RapidJSONAdapter/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+					bat "conan upload RapidJSONAdapter/${version}@systelab/${channel} --all -r systelab-conan-local --force"
 				}
 			}
 		}
