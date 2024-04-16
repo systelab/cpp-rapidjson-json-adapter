@@ -102,7 +102,7 @@ pipeline
 						configs.each
 						{ config ->
 							def buildFolder = "build/${config}-${arch}"
-							bat "conan test test_package/conanfile.py RapidJSONAdapter/	${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
+							bat "conan test test_package/conanfile.py RapidJSONAdapter/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
 						}
 					}
 				}
