@@ -1,53 +1,55 @@
 #include "stdafx.h"
-#include "RapidJSONAdapter/JSONAdapter.h"
 
+#include "RapidJSONAdapter/JSONAdapter.h"
 #include "RapidJSONAdapter/JSONDocument.h"
 #include "RapidJSONAdapter/JSONValue.h"
 
-#include "JSONAdapterTestUtilities/JSONAdapterUtilities.h"
-#include "JSONAdapterTestUtilities/Mocks/MockJSONDocument.h"
-#include "JSONAdapterTestUtilities/Mocks/MockJSONRemoteSchemaProvider.h"
-
 #include <string>
 
-using namespace testing;
-using namespace systelab::json::test_utility;
 
-namespace
-{
+namespace {
 	static const std::string basicJson =
-		"{								\n"
-		"	\"toBeRemoved\": 1,			\n"
-		"	\"filler1\" : \"filler1\",	\n"
-		"	\"filler2\" : \"filler2\",	\n"
-		"	\"last\" : \"last\"			\n"
-		"}								\n";
-
-	static const std::string nestedJson =
 		"{										\n"
+		"	\"toBeRemoved\": \"toBeRemoved\",	\n"
 		"	\"filler1\" : \"filler1\",			\n"
-		"	\"content\" : 						\n"
-		"	{									\n"
-		"		\"sub1\" : \"sub1\",			\n"
-		"		\"toBeRemoved\" : 1,			\n"
-		"		\"sub2\" : \"sub2\",			\n"
-		"		\"last\" : \"last\"				\n"
-		"	},									\n"
-		"	\"filler2\" : \"filler2\"			\n"
+		"	\"filler2\" : \"filler2\",			\n"
+		"	\"last\" : \"last\"					\n"
 		"}										\n";
 
+	static const std::string nestedJson =
+		"{											\n"
+		"	\"filler1\" : \"filler1\",				\n"
+		"	\"content\" : 							\n"
+		"	{										\n"
+		"		\"sub1\" : \"sub1\",				\n"
+		"		\"toBeRemoved\" : \"toBeRemoved\",	\n"
+		"		\"sub2\" : \"sub2\",				\n"
+		"		\"last\" : \"last\"					\n"
+		"	},										\n"
+		"	\"filler2\" : \"filler2\"				\n"
+		"}											\n";
 }
-
 
 namespace systelab::json::rapidjson::unit_test {
 
-	class JSONCustomTest : public testing::Test
+	class JSONValueRemoveTest : public testing::Test
 	{
 	protected:
 		JSONAdapter m_jsonAdapter;
 	};
 
-	TEST_F(JSONCustomTest, testRemoveMaintainsIntegrityOfWholeJSON)
+	TEST_F(JSONValueRemoveTest, testRemovedElementIsRemoved)
+	{
+		auto jsonDocument = m_jsonAdapter.buildDocumentFromString(basicJson);
+		auto& jsonRoot = jsonDocument->getRootValue();
+
+		jsonRoot.removeMember("toBeRemoved");
+
+		EXPECT_THROW(jsonRoot.getObjectMemberValue("toBeRemoved"), 
+					 std::runtime_error);
+	}
+
+	TEST_F(JSONValueRemoveTest, testRemoveInMainObjectMaintainsIntegrityOfWholeJSON)
 	{
 		auto jsonDocument = m_jsonAdapter.buildDocumentFromString(basicJson);
 		auto& jsonRoot = jsonDocument->getRootValue();
@@ -67,7 +69,7 @@ namespace systelab::json::rapidjson::unit_test {
 		EXPECT_EQ(filler2JSONValue.getString(), "filler2");
 	}
 
-	TEST_F(JSONCustomTest, testRemoveMaintainsIntegrityOfObject)
+	TEST_F(JSONValueRemoveTest, testRemoveNestedObjectMaintainsIntegrityOfObject)
 	{
 		auto jsonDocument = m_jsonAdapter.buildDocumentFromString(nestedJson);
 		auto& jsonRoot = jsonDocument->getRootValue();

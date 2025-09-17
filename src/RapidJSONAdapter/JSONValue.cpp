@@ -272,8 +272,8 @@ namespace systelab { namespace json { namespace rapidjson {
 			/*RapidJSON's RemoveMember() swaps JSONValue element between the element to be removed and its last element. 
 			* This modification swaps elements beforehand so after RemoveMember() is called the last element is not lost*/
 
-			auto end = --(m_value.MemberEnd());
-			auto lastName = end->name.GetString();
+			auto last = --(m_value.MemberEnd());
+			auto lastName = last->name.GetString();
 			m_objectMembers.find(name)->second.swap(m_objectMembers.find(lastName)->second);
 		}
 
