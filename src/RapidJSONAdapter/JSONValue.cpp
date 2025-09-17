@@ -261,10 +261,25 @@ namespace systelab { namespace json { namespace rapidjson {
 
 	void JSONValue::removeMember(const std::string& name)
 	{
+		if (m_value.MemberCount() == 0)
+		{
+			return;
+		}
+
 		loadObjectMembers();
+
+		{
+			/*RapidJSON's RemoveMember() swaps JSONValue element between the element to be removed and its last element. 
+			* This modification swaps elements beforehand so after RemoveMember() is called the last element is not lost*/
+
+			auto end = --(m_value.MemberEnd());
+			auto lastName = end->name.GetString();
+			m_objectMembers.find(name)->second.swap(m_objectMembers.find(lastName)->second);
+		}
 
 		m_value.RemoveMember(name);
 		m_objectMembers.erase(name);
+
 	}
 
 	unsigned int JSONValue::getArrayValueCount() const
