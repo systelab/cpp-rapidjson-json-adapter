@@ -275,11 +275,10 @@ namespace systelab { namespace json { namespace rapidjson {
 			auto last = --(m_value.MemberEnd());
 			auto lastName = last->name.GetString();
 			auto toBeRemovedElement = m_objectMembers.find(name);
-			if (toBeRemovedElement == m_objectMembers.end())
+			if (toBeRemovedElement != m_objectMembers.end())
 			{
-				return;
+				toBeRemovedElement->second.swap(m_objectMembers.find(lastName)->second);
 			}
-			toBeRemovedElement->second.swap(m_objectMembers.find(lastName)->second);
 		}
 
 		m_value.RemoveMember(name);
