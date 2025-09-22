@@ -45,7 +45,7 @@ namespace systelab::json::rapidjson::unit_test {
 
 		jsonRoot.removeMember("toBeRemoved");
 
-		EXPECT_TRUE(jsonRoot.hasObjectMember("toBeRemoved"));
+		EXPECT_FALSE(jsonRoot.hasObjectMember("toBeRemoved"));
 	}
 
 	TEST_F(JSONValueRemoveTest, testRemoveInMainObjectMaintainsIntegrityOfWholeJSON)
