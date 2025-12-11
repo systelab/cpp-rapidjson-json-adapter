@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(RapidJSONAdapter)
+project(rapidjson-adapter)
 
 # Configure environment
 set(CMAKE_CXX_STANDARD 20)

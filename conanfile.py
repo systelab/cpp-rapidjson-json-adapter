@@ -1,41 +1,51 @@
-from conans import ConanFile, CMake, tools
-
+from conan import ConanFile
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.files import copy, collect_libs
+import os
 
 class RapidJSONAdapterConan(ConanFile):
-    name = "RapidJSONAdapter"
+    name = "rapidjson-adapter"
+    version = "1.2.0"
     description = "C++ JSON adapter based on rapidjson"
     url = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     homepage = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "rapidjson", "json", "wrapper")
     license = "MIT"
-    generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
     exports_sources = "*", "!build/*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.build_type = str(self.settings.build_type)
+        tc.generate()
+        CMakeDeps(self).generate()
+
     def requirements(self):
-        self.requires("JSONAdapterInterface/1.1.6@systelab/stable")
-        self.requires("rapidjson/1.1.0.2@systelab/stable")
+        self.requires("json-adapter-interface/1.2.0")
+        self.requires("rapidjson/1.2.0")
 
     def build_requirements(self):
-        self.build_requires("gtest/1.14.0@#4372c5aed2b4018ed9f9da3e218d18b3")
-        self.build_requires("JSONAdapterTestUtilities/1.1.6@systelab/stable")
+        self.tool_requires("gtest/1.14.0")
+        self.tool_requires("rapidjson/1.2.0")
+        self.tool_requires("json-adapter-test-utilities/1.2.0")
+        self.test_requires("json-adapter-test-utilities/1.2.0")
 
     def build(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
 
-    def imports(self):
-        self.copy("*.dll", dst="bin", src="bin")
-        self.copy("*.dylib*", dst="bin", src="lib")
-        self.copy("*.so*", dst="bin", src="lib")
-
     def package(self):
-        self.copy("JSONAdapter.h", dst="include/RapidJSONAdapter", src="src/RapidJSONAdapter")
-        self.copy("*RapidJSONAdapter.lib", dst="lib", keep_path=False)
-        self.copy("*RapidJSONAdapter.pdb", dst="lib", keep_path=False)
-        self.copy("*RapidJSONAdapter.a", dst="lib", keep_path=False)
+        include_src = os.path.join(self.source_folder, "src", "RapidJSONAdapter")
+        include_dst = os.path.join(self.package_folder, "include", "RapidJSONAdapter")
+        lib_dst = os.path.join(self.package_folder, "lib")
+        lib_src = os.path.join(self.build_folder, "lib", str(self.settings.build_type))
+        
+        copy(self, "JSONAdapter.h", src=include_src, dst=include_dst)
+        copy(self, "*.lib", src=lib_src, dst=lib_dst)
+        copy(self, "*.pdb", src=lib_src, dst=lib_dst)
+        copy(self, "*.a",   src=lib_src, dst=lib_dst)
 
     def package_info(self):
-        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.libs = collect_libs(self)
