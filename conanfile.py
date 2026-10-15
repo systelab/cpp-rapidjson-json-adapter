@@ -35,6 +35,7 @@ class RapidJSONAdapterConan(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
+        cmake.test()
 
     def package(self):
         include_src = os.path.join(self.source_folder, "src", "RapidJSONAdapter")
