@@ -44,9 +44,3 @@ endforeach()
 
 # Register tests
 add_test(NAME RapidJSONAdapterTest COMMAND ${RAPIDJSON_ADAPTER_TEST_PROJECT})
-
-# Additional target for code coverage analysis
-if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
-	include(CodeCoverage)
-	setup_target_for_coverage(RapidJSONAdapterTestCoverage RapidJSONAdapterTest coverage)
-endif()
