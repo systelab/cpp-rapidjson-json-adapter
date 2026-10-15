@@ -22,8 +22,8 @@ class RapidJSONAdapterConan(ConanFile):
         CMakeDeps(self).generate()
 
     def requirements(self):
-        self.requires("json-adapter-interface/1.2.0")
-        self.requires("rapidjson/1.2.0")
+        self.requires("json-adapter-interface/1.2.0", transitive_headers=True)
+        self.requires("rapidjson/1.2.0", transitive_headers=True)
 
     def build_requirements(self):
         self.tool_requires("gtest/1.14.0")
