@@ -47,6 +47,6 @@ However, if you want to `Debug` the source code, you will need these commands:
 > mkdir build && cd build
 > conan remote add systelab-public https://systelab.jfrog.io/artifactory/api/conan/cpp-conan-production-local
 > conan install ..
-> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
+> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Release]
 > make
 ```
