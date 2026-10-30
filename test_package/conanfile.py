@@ -9,8 +9,8 @@ class RapidJSONAdapterTestConan(ConanFile):
 
     def requirements(self):
         self.requires(self.tested_reference_str)
-        self.requires("json-adapter-interface/1.2.0")
-        self.requires("rapidjson/1.2.0")
+        self.requires("json-adapter-interface/1.1.7")
+        self.requires("rapidjson/1.1.0.2")
 
     def build(self):
         cmake = CMake(self)
