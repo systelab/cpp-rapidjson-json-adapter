@@ -13,9 +13,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Find external dependencies
 find_package(rapidjson-adapter)
 
-# Configure compilation options
-add_compile_options(-DRAPIDJSON_HAS_STDSTRING=1)
-
 # Configure test package project
 set(RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT RapidJSONAdapterPackageTest)
 add_executable(${RAPIDJSON_ADAPTER_PACKAGE_TEST_PROJECT} RapidJSONAdapterExample.cpp)

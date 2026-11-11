@@ -5,13 +5,13 @@ import os
 
 class RapidJSONAdapterConan(ConanFile):
     name = "rapidjson-adapter"
-    version = "1.2.0"
     description = "C++ JSON adapter based on rapidjson"
     url = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     homepage = "https://github.com/systelab/cpp-rapidjson-json-adapter"
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "rapidjson", "json", "wrapper")
     license = "MIT"
+    package_type = "static-library"
     settings = "os", "compiler", "build_type", "arch"
     exports_sources = "*", "!build/*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
@@ -22,14 +22,12 @@ class RapidJSONAdapterConan(ConanFile):
         CMakeDeps(self).generate()
 
     def requirements(self):
-        self.requires("json-adapter-interface/1.2.0", transitive_headers=True)
+        self.requires("json-adapter-interface/1.2.1", transitive_headers=True)
         self.requires("rapidjson/1.2.0", transitive_headers=True)
 
     def build_requirements(self):
-        self.tool_requires("gtest/1.14.0")
-        self.tool_requires("rapidjson/1.2.0")
-        self.tool_requires("json-adapter-test-utilities/1.2.0")
-        self.test_requires("json-adapter-test-utilities/1.2.0")
+        self.test_requires("gtest/1.14.0")
+        self.test_requires("json-adapter-test-utilities/1.2.1")
 
     def build(self):
         cmake = CMake(self)
@@ -50,3 +48,4 @@ class RapidJSONAdapterConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = collect_libs(self)
+        self.cpp_info.defines = ["RAPIDJSON_HAS_STDSTRING=1"]
