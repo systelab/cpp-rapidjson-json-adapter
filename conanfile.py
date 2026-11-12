@@ -13,7 +13,10 @@ class RapidJSONAdapterConan(ConanFile):
     license = "MIT"
     package_type = "static-library"
     settings = "os", "compiler", "build_type", "arch"
-    exports_sources = "*", "!build/*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
+    exports_sources = "src/*", "CmakeLists.txt"
+
+    def layout(self):
+        cmake_layout(self, build_folder=os.path.join("build", str(self.settings.build_type), str(self.settings.arch)))
 
     def generate(self):
         tc = CMakeToolchain(self)
