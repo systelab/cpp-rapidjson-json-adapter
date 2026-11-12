@@ -2,23 +2,19 @@ enable_testing()
 
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-# Find external dependencides
-find_package(JSONAdapterTestUtilities)
-
-set(GTEST_PACKAGE_NAME gtest)
-find_package(${GTEST_PACKAGE_NAME})
-if (NOT TARGET ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
-    set(GTEST_PACKAGE_NAME GTest)
-    find_package(${GTEST_PACKAGE_NAME})
-endif()
-
+ 
 # Configure test project
-set(RAPIDJSON_ADAPTER_TEST_PROJECT RapidJSONAdapterTest)
+set(RAPIDJSON_ADAPTER_TEST_PROJECT RapidJSONAdapterTest) 
+ 
+# Find external dependencides
+find_package(JSONAdapterTestUtilities REQUIRED)
+find_package(GTest REQUIRED)
+
+
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_SRC "*.cpp")
 file(GLOB_RECURSE RAPIDJSON_ADAPTER_TEST_PROJECT_HDR "*.h")
 add_executable(${RAPIDJSON_ADAPTER_TEST_PROJECT} ${RAPIDJSON_ADAPTER_TEST_PROJECT_SRC} ${RAPIDJSON_ADAPTER_TEST_PROJECT_HDR})
-target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} RapidJSONAdapter JSONAdapterTestUtilities::JSONAdapterTestUtilities ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
+target_link_libraries(${RAPIDJSON_ADAPTER_TEST_PROJECT} rapidjson-adapter JSONAdapterTestUtilities::JSONAdapterTestUtilities gtest::gtest)
 
 # Ignored missing PDBs link warning on Visual Studio
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -42,9 +38,3 @@ endforeach()
 
 # Register tests
 add_test(NAME RapidJSONAdapterTest COMMAND ${RAPIDJSON_ADAPTER_TEST_PROJECT})
-
-# Additional target for code coverage analysis
-if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
-	include(CodeCoverage)
-	setup_target_for_coverage(RapidJSONAdapterTestCoverage RapidJSONAdapterTest coverage)
-endif()

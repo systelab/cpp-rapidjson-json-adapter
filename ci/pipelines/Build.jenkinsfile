@@ -1,21 +1,20 @@
-def channel = "testing"
 def version = "0.0.0"
 def profile = "vs2022.conanprofile"
 def archs = ['x86', 'x86_64']
 def configs = ['Debug', 'Release']
 
-library identifier: "jenkins-pipeline-utils@1.0.10",
-		retriever: modernSCM([
-			$class: "GitSCMSource",
-			remote: "https://bitbucket.org/Systelab/jenkins-pipeline-utils.git",
-			credentialsId: "BitbucketWerfen"
-		])
-   
+@Library('aid-pipeline-utils@1.0.23') _
+
 pipeline
 {
 	agent
 	{
 		label 'lib-build'
+	}
+
+	environment
+	{
+		PATH = "${env.USERPROFILE}\\.venvs\\conan2\\Scripts;${env.PATH}"
 	}
 
 	parameters
@@ -25,10 +24,6 @@ pipeline
 				defaultValue: '',
 				trim: true)
 
-		booleanParam( name: 'stable',
-					  description: 'Show if generated library should be uploaded as stable or testing',
-					  defaultValue: false )
-		
 		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload conan package',
 					  defaultValue: false )
@@ -59,7 +54,6 @@ pipeline
 						version = params.tag
 						checkoutFromGIT(scm.userRemoteConfigs[0].url, "v${version}", true)
 					}
-					channel = params.stable ? "stable" : "testing"
 				}
 			}
 		}
@@ -76,33 +70,11 @@ pipeline
 						{ config ->
 							stage("Build ${config}|${arch}")
 							{
-								def buildFolder = "build/${config}-${arch}"
-								bat "conan install . --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}"
-								bat "conan build . --build-folder ${buildFolder}"
-								bat "conan export-pkg . RapidJSONAdapter/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
-								dir ("${buildFolder}/bin/${config}/")
+								withEnv(["GTEST_OUTPUT=xml:${env.WORKSPACE}/reports/${config}-${arch}/"])
 								{
-									bat "RapidJSONAdapterTest.exe --gtest_output=xml:RapidJSONAdapterTest.xml"
+									bat "conan create . --version=${version} --profile:all=${profile} --settings:all arch=${arch} --settings:all build_type=${config}"
 								}
 							}
-						}
-					}
-				}
-			}
-		}
-
-		stage('Test Packages')
-		{
-			steps
-			{
-				script
-				{
-					archs.each
-					{ arch ->
-						configs.each
-						{ config ->
-							def buildFolder = "build/${config}-${arch}"
-							bat "conan test test_package/conanfile.py RapidJSONAdapter/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
 						}
 					}
 				}
@@ -119,7 +91,7 @@ pipeline
 			{
 				script
 				{
-					bat "conan upload RapidJSONAdapter/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+					bat "conan upload rapidjson-adapter/${version} --remote aid-conan-production-local --confirm"
 				}
 			}
 		}
@@ -129,10 +101,10 @@ pipeline
 	{
 		always
 		{
-			junit allowEmptyResults: true, testResults: "build*/RapidJSONAdapterTest.xml"
+			junit allowEmptyResults: true, testResults: "reports/**/RapidJSONAdapterTest.xml"
 			script
 			{
-				currentBuild.description = "${version}/${channel}"
+				currentBuild.description = "${version}"
 			}
 			cleanupWorkspace()
 		}
