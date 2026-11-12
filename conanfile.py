@@ -1,5 +1,5 @@
 from conan import ConanFile
-from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
 from conan.tools.files import copy, collect_libs
 import os
 
@@ -13,7 +13,10 @@ class RapidJSONAdapterConan(ConanFile):
     license = "MIT"
     package_type = "static-library"
     settings = "os", "compiler", "build_type", "arch"
-    exports_sources = "*", "!build/*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
+    exports_sources = "src/*", "test/*", "CMakeLists.txt"
+
+    def layout(self):
+        cmake_layout(self, build_folder=os.path.join("build", str(self.settings.build_type), str(self.settings.arch)))
 
     def generate(self):
         tc = CMakeToolchain(self)
