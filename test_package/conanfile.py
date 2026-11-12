@@ -8,7 +8,7 @@ class RapidJSONAdapterTestConan(ConanFile):
     generators = "CMakeToolchain", "CMakeDeps"
 
     def layout(self):
-        cmake_layout(self, build_folder=os.path.join("build", str(self.settings.arch)))
+        cmake_layout(self, build_folder=os.path.join("build", str(self.settings.build_type), str(self.settings.arch)))
 
     def requirements(self):
         self.requires(self.tested_reference_str)
